@@ -20,7 +20,13 @@ from scripts.archive import archive_item  # noqa: E402
 from scripts.filter import filter_and_classify  # noqa: E402
 from scripts.llm import LLMClient  # noqa: E402
 from scripts.notify import send_feishu  # noqa: E402
-from scripts.render import copy_archive_to_site, copy_assets, render_daily, render_index  # noqa: E402
+from scripts.render import (  # noqa: E402
+    copy_archive_to_site,
+    copy_assets,
+    re_render_all_dailies,
+    render_daily,
+    render_index,
+)
 from scripts.sources import build_source  # noqa: E402
 from scripts.sources.base import Item  # noqa: E402
 from scripts.utils import env_get, get_time_window, log, today_label  # noqa: E402
@@ -170,6 +176,8 @@ def main() -> int:
     render_daily(date_label, selected, site_conf)
     copy_archive_to_site(date_label)
     copy_assets()
+    # 重新渲染所有 daily 页面，让每个页面的日历都拿到完整日期列表
+    re_render_all_dailies(site_conf)
     render_index(site_conf)  # 始终从最新 daily JSON 重新渲染首页
 
     # 5. 飞书通知

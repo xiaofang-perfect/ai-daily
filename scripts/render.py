@@ -102,6 +102,42 @@ def render_daily(date_label: str, items: list[Item], site_conf: dict[str, Any]) 
     return out_path
 
 
+def re_render_all_dailies(site_conf: dict[str, Any]) -> int:
+    """根据 site/daily/*.json 重新渲染所有 daily HTML。
+    每次新增日期后调用一次，保证所有页面都拿到完整的日历日期列表。
+    """
+    env = _env()
+    tpl = env.get_template("daily.html")
+    dates = _scan_dates()
+    if not dates:
+        return 0
+    dates_json = json.dumps(dates)
+    out_dir = project_root() / "site" / "daily"
+    n = 0
+    for date_label in dates:
+        items = _load_items_json(date_label)
+        if not items:
+            continue
+        source_summary = ", ".join(
+            sorted({(it.get("source_label") or "").split(" · ")[0] for it in items})
+        ) or "—"
+        html = tpl.render(
+            site=site_conf,
+            date=date_label,
+            items=items,
+            rel_root="../",
+            generated_at=datetime.now().strftime("%Y-%m-%d %H:%M"),
+            source_summary=source_summary,
+            tag_class=_tag_class,
+            available_dates=dates,
+            available_dates_json=dates_json,
+        )
+        (out_dir / f"{date_label}.html").write_text(html, encoding="utf-8")
+        n += 1
+    log.info("re-rendered %d daily pages with full date list", n)
+    return n
+
+
 def render_index(site_conf: dict[str, Any]) -> Path:
     """首页 = 最新一期内容 + 左侧日历。从 site/daily/*.json 读取最新一期。"""
     env = _env()
