@@ -8,6 +8,9 @@ from scripts.utils import http_client, log, stable_id, truncate
 
 
 class RedditSource(Source):
+    # /top.json?t=day 总是返回"今天"的，老日期会被时间窗过滤掉，安全返回 0。
+    supports_backfill = True
+
     def fetch(self, since: datetime, until: datetime) -> list[Item]:
         subs = self.conf.get("subreddits", [])
         items: list[Item] = []

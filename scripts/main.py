@@ -4,8 +4,10 @@ from __future__ import annotations
 import argparse
 import os
 import sys
+from datetime import datetime, time, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 import yaml
 
@@ -45,11 +47,31 @@ def load_config() -> dict[str, Any]:
     return yaml.safe_load(p.read_text(encoding="utf-8"))
 
 
-def collect_all(config: dict[str, Any]) -> list[Item]:
+def _backfill_window(date_label: str, tz_name: str, cutoff_hour: int) -> tuple[datetime, datetime]:
+    """补跑模式的时间窗：返回 (since, until) UTC aware。
+    until = date 当天 cutoff:00 (本地)，since = until - 24h。
+    """
+    tz = ZoneInfo(tz_name)
+    until_local = datetime.combine(
+        datetime.strptime(date_label, "%Y-%m-%d").date(),
+        time(cutoff_hour, 0),
+        tzinfo=tz,
+    )
+    since_local = until_local - timedelta(days=1)
+    return since_local.astimezone(timezone.utc), until_local.astimezone(timezone.utc)
+
+
+def collect_all(
+    config: dict[str, Any],
+    since: datetime | None = None,
+    until: datetime | None = None,
+    backfill: bool = False,
+) -> list[Item]:
     site_conf = config.get("site", {})
-    tz = site_conf.get("timezone", "Asia/Shanghai")
-    cutoff = int(site_conf.get("daily_cutoff_hour", 10))
-    since, until = get_time_window(tz, cutoff)
+    if since is None or until is None:
+        tz = site_conf.get("timezone", "Asia/Shanghai")
+        cutoff = int(site_conf.get("daily_cutoff_hour", 10))
+        since, until = get_time_window(tz, cutoff)
     log.info("时间窗：%s ~ %s (UTC)", since.isoformat(), until.isoformat())
 
     per_source = int(config.get("output", {}).get("per_source_collect", 30))
@@ -59,6 +81,9 @@ def collect_all(config: dict[str, Any]) -> list[Item]:
             continue
         src = build_source(sconf)
         if not src:
+            continue
+        if backfill and not getattr(src, "supports_backfill", False):
+            log.info("[%s] 跳过（不支持 backfill）", sconf.get("id"))
             continue
         try:
             items = src.fetch(since, until)
@@ -86,20 +111,34 @@ def main() -> int:
     ap.add_argument("--no-archive", action="store_true", help="跳过全文抓取留痕")
     ap.add_argument("--no-notify", action="store_true", help="跳过飞书通知")
     ap.add_argument("--limit-archive", type=int, default=0, help="限制抓全文条数（0=不限）")
+    ap.add_argument(
+        "--backfill",
+        type=str,
+        metavar="YYYY-MM-DD",
+        help="补跑指定日期的日报。仅 ArXiv/HackerNews 等支持历史查询的源会有数据；自动跳过通知。",
+    )
     args = ap.parse_args()
 
     load_dotenv()
     config = load_config()
     site_conf = config.get("site", {})
     out_conf = config.get("output", {})
-    date_label = today_label(
-        site_conf.get("timezone", "Asia/Shanghai"),
-        int(site_conf.get("daily_cutoff_hour", 10)),
-    )
-    log.info("=== 日报日期: %s ===", date_label)
+    tz_name = site_conf.get("timezone", "Asia/Shanghai")
+    cutoff = int(site_conf.get("daily_cutoff_hour", 10))
+
+    if args.backfill:
+        date_label = args.backfill
+        since, until = _backfill_window(date_label, tz_name, cutoff)
+        log.info("=== 补跑模式: %s ===", date_label)
+        # backfill 默认不发通知
+        args.no_notify = True
+    else:
+        date_label = today_label(tz_name, cutoff)
+        since = until = None
+        log.info("=== 日报日期: %s ===", date_label)
 
     # 1. 采集
-    items = collect_all(config)
+    items = collect_all(config, since=since, until=until, backfill=bool(args.backfill))
     if args.dry_run:
         for it in items[:20]:
             print(f"[{it.source_label}] {it.title}\n  {it.url}\n")
@@ -131,7 +170,7 @@ def main() -> int:
     render_daily(date_label, selected, site_conf)
     copy_archive_to_site(date_label)
     copy_assets()
-    render_index(date_label, selected, site_conf)
+    render_index(site_conf)  # 始终从最新 daily JSON 重新渲染首页
 
     # 5. 飞书通知
     if not args.no_notify:

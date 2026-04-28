@@ -1,8 +1,8 @@
-"""ArXiv: 通过官方 API 拉 cs.AI / cs.LG / cs.CL 最新论文。"""
+"""ArXiv: 通过官方 API 拉指定时间窗内的 cs.AI / cs.LG / cs.CL 论文。"""
 from __future__ import annotations
 
+import urllib.parse as up
 from datetime import datetime
-from urllib.parse import urlencode
 
 import feedparser
 
@@ -11,18 +11,23 @@ from scripts.utils import http_client, log, parse_dt, stable_id, truncate
 
 
 class ArxivSource(Source):
+    supports_backfill = True
     API = "https://export.arxiv.org/api/query"
 
     def fetch(self, since: datetime, until: datetime) -> list[Item]:
         cats = self.conf.get("categories", ["cs.AI"])
-        query = "+OR+".join(f"cat:{c}" for c in cats)
-        params = {
-            "search_query": query,
-            "sortBy": "submittedDate",
-            "sortOrder": "descending",
-            "max_results": 80,
-        }
-        url = f"{self.API}?{urlencode(params, safe='+:')}"
+        cat_query = " OR ".join(f"cat:{c}" for c in cats)
+        # ArXiv submittedDate 格式: YYYYMMDDHHMM (UTC)
+        s = since.strftime("%Y%m%d%H%M")
+        u = until.strftime("%Y%m%d%H%M")
+        query = f"({cat_query}) AND submittedDate:[{s} TO {u}]"
+        # safe 保留 ArXiv 期望的字符；空格变 +
+        encoded = up.quote_plus(query, safe=":[]")
+        url = (
+            f"{self.API}?search_query={encoded}"
+            "&sortBy=submittedDate&sortOrder=descending&max_results=80"
+        )
+
         try:
             with http_client(timeout=45.0) as c:
                 r = c.get(url)
@@ -35,6 +40,7 @@ class ArxivSource(Source):
         items: list[Item] = []
         for e in feed.entries:
             pub = parse_dt(getattr(e, "published", None)) or parse_dt(getattr(e, "updated", None))
+            # 二次过滤（API 偶尔会越界返回）
             if pub and (pub < since or pub > until):
                 continue
             title = (getattr(e, "title", "") or "").replace("\n", " ").strip()

@@ -18,6 +18,10 @@ from scripts.utils import (
 
 
 class RSSSource(Source):
+    # RSS feed 通常只保留最近一段时间的条目，对老日期几乎一定空。
+    # 这里设 True 因为 fetch 会按 since/until 过滤，老日期会安全返回 0。
+    supports_backfill = True
+
     def fetch(self, since: datetime, until: datetime) -> list[Item]:
         items: list[Item] = []
         feeds = [expand_env(u) for u in (self.conf.get("feeds") or []) if u]

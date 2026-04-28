@@ -18,6 +18,8 @@ from scripts.utils import (
 
 
 class TwitterRSSHubSource(Source):
+    supports_backfill = True
+
     def fetch(self, since: datetime, until: datetime) -> list[Item]:
         base = os.environ.get("RSSHUB_BASE_URL", "").rstrip("/")
         if not base:

@@ -8,6 +8,7 @@ from scripts.utils import http_client, log, stable_id, truncate
 
 
 class HackerNewsSource(Source):
+    supports_backfill = True
     API = "https://hn.algolia.com/api/v1/search_by_date"
 
     def fetch(self, since: datetime, until: datetime) -> list[Item]:

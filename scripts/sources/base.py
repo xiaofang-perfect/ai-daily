@@ -49,7 +49,13 @@ class Item:
 
 
 class Source:
-    """采集源接口。子类只需实现 fetch()。"""
+    """采集源接口。子类只需实现 fetch()。
+
+    supports_backfill: 该源是否能查询任意历史时间窗。
+    - 大多数 RSS 源 = False（feed 只保留最近条目）
+    - ArXiv/HackerNews 等有时间过滤 API 的源 = True
+    """
+    supports_backfill: bool = False
 
     def __init__(self, conf: dict[str, Any]):
         self.conf = conf

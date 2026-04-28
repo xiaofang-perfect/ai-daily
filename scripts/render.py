@@ -48,12 +48,36 @@ def _scan_dates() -> list[str]:
     )
 
 
+def _save_items_json(date_label: str, items: list[Item]) -> Path:
+    out_dir = project_root() / "site" / "daily"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    p = out_dir / f"{date_label}.json"
+    p.write_text(
+        json.dumps([it.to_dict() for it in items], ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    return p
+
+
+def _load_items_json(date_label: str) -> list[dict[str, Any]]:
+    p = project_root() / "site" / "daily" / f"{date_label}.json"
+    if not p.exists():
+        return []
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception as e:
+        log.warning("无法读取 %s: %s", p, e)
+        return []
+
+
 def render_daily(date_label: str, items: list[Item], site_conf: dict[str, Any]) -> Path:
     env = _env()
     tpl = env.get_template("daily.html")
     source_summary = ", ".join(sorted({it.source_label.split(" · ")[0] for it in items})) or "—"
 
-    # 渲染前需要扫一次 dates，并把今天加进去（因为 daily 文件还没写到磁盘）
+    # 保存 JSON 用于后续 index 重渲染
+    _save_items_json(date_label, items)
+
     dates = _scan_dates()
     if date_label not in dates:
         dates.append(date_label)
@@ -78,12 +102,17 @@ def render_daily(date_label: str, items: list[Item], site_conf: dict[str, Any]) 
     return out_path
 
 
-def render_index(date_label: str, items: list[Item], site_conf: dict[str, Any]) -> Path:
-    """首页 = 最新一期内容 + 左侧日历。"""
+def render_index(site_conf: dict[str, Any]) -> Path:
+    """首页 = 最新一期内容 + 左侧日历。从 site/daily/*.json 读取最新一期。"""
     env = _env()
     tpl = env.get_template("index.html")
     dates = _scan_dates()
-    source_summary = ", ".join(sorted({it.source_label.split(" · ")[0] for it in items})) or "—"
+
+    date_label = dates[-1] if dates else ""
+    items = _load_items_json(date_label) if date_label else []
+    source_summary = ", ".join(
+        sorted({(it.get("source_label") or "").split(" · ")[0] for it in items})
+    ) or "—"
 
     html = tpl.render(
         site=site_conf,
@@ -98,7 +127,7 @@ def render_index(date_label: str, items: list[Item], site_conf: dict[str, Any]) 
     )
     out_path = project_root() / "site" / "index.html"
     out_path.write_text(html, encoding="utf-8")
-    log.info("rendered index with %d dates (latest: %s)", len(dates), date_label)
+    log.info("rendered index with %d dates (latest: %s)", len(dates), date_label or "—")
     return out_path
 
 
