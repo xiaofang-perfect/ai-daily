@@ -25,7 +25,7 @@
     </div>
     <div id="cal-grid" class="cal-grid"></div>
     <p class="cal-hint">橙色 = 已有日报</p>
-    <p class="cal-count">共 20 期</p>
+    <p class="cal-count">共 24 期</p>
   </aside>
 
 <main class="content">
@@ -260,8 +260,9 @@
 </footer>
 
 <script>
-const AVAILABLE = ["2026-03-30", "2026-04-10", "2026-04-11", "2026-04-12", "2026-04-13", "2026-04-14", "2026-04-15", "2026-04-16", "2026-04-17", "2026-04-18", "2026-04-19", "2026-04-20", "2026-04-21", "2026-04-22", "2026-04-23", "2026-04-24", "2026-04-25", "2026-04-26", "2026-04-27", "2026-04-28"];
+const AVAILABLE = ["2026-03-30", "2026-04-06", "2026-04-07", "2026-04-08", "2026-04-09", "2026-04-10", "2026-04-11", "2026-04-12", "2026-04-13", "2026-04-14", "2026-04-15", "2026-04-16", "2026-04-17", "2026-04-18", "2026-04-19", "2026-04-20", "2026-04-21", "2026-04-22", "2026-04-23", "2026-04-24", "2026-04-25", "2026-04-26", "2026-04-27", "2026-04-28"];
 const DATE_SET = new Set(AVAILABLE);
+const LATEST_DATE = AVAILABLE.length > 0 ? AVAILABLE[AVAILABLE.length - 1] : "";
 const CURRENT_DATE = "2026-04-18";
 const REL_ROOT = "../";
 const WEEKDAYS = ['日', '一', '二', '三', '四', '五', '六'];
@@ -301,11 +302,13 @@ function render() {
     const date = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), d);
     const ds = fmt(date);
     const has = DATE_SET.has(ds);
+    const isLatest = ds === LATEST_DATE;
     const isCurrent = ds === CURRENT_DATE;
     const cls = ['cal-day'];
-    if (has) cls.push('cal-has');
+    if (isLatest) cls.push('cal-today');       // 最亮：最新一期（"今天"）
+    else if (has) cls.push('cal-has-past');    // 较淡：过往日期
     else cls.push('cal-empty');
-    if (isCurrent) cls.push('cal-current');
+    if (isCurrent) cls.push('cal-current');    // 加黑色细框：你正在看这天
     if (has) {
       cells.push(`<a class="${cls.join(' ')}" href="${REL_ROOT}daily/${ds}.html">${d}</a>`);
     } else {

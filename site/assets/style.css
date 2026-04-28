@@ -232,7 +232,7 @@ a:hover { text-decoration: underline; }
 .cal-weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
+  gap: 5px;
   margin-bottom: 4px;
 }
 .cal-weekdays > div {
@@ -244,29 +244,44 @@ a:hover { text-decoration: underline; }
 .cal-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 3px;
+  gap: 5px;
 }
 .cal-day, .cal-pad {
   aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
+  font-size: 12.5px;
   font-variant-numeric: tabular-nums;
-  border-radius: 5px;
+  border-radius: 6px;
+  /* 内嵌 2px，让色块不顶到 cell 边缘，看起来更清爽 */
+  margin: 1px;
 }
 .cal-empty { color: #c5c5c0; }
-.cal-has {
+/* 当天（最新一期）：满颜色 */
+.cal-today {
   background: var(--accent);
   color: #fff;
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
 }
-.cal-has:hover { opacity: 0.85; text-decoration: none; }
+/* 过往：淡橘色 22% */
+.cal-has-past {
+  background: rgba(255, 107, 53, 0.22);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+/* 当前查看的过往：中间橘色 50%（黑细框由 .cal-current 加） */
+.cal-has-past.cal-current {
+  background: rgba(255, 107, 53, 0.5);
+}
+.cal-today:hover, .cal-has-past:hover { opacity: 0.88; text-decoration: none; }
 .cal-current {
   outline: 1px solid var(--fg);
-  outline-offset: 1px;
+  outline-offset: 2px;
 }
 .cal-hint, .cal-count {
   text-align: center;
