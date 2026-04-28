@@ -16,6 +16,11 @@ SYSTEM_PROMPT = """你是一位资深 AI 行业分析师，每天为读者精选
 2. 影响力：来自一线公司/研究机构/知名研究员的优先
 3. 技术深度：有具体方法、数据、benchmark 的优先于纯观点稿
 4. 多样性：避免同一事件多条入选；不同分类要均衡
+5. 视觉性：在质量相近时，**优先选择带图片的资讯**（候选项 has_image=true）
+
+硬性约束：
+- 入选 10 条中**必须有 2-4 条带图**（has_image=true 的）
+- 如果带图候选不足，可以下调一些，但不能为 0；如果带图候选很多，也别全选带图的
 
 剔除标准：
 - 营销软文、个人观点博客、低质量重复内容
@@ -64,7 +69,11 @@ def filter_and_classify(items: list[Item], llm: LLMClient, top_k: int, categorie
 
     # 构造给 LLM 的精简候选（不要把全部 raw_excerpt 都喂进去，控制 token）
     candidates = []
+    n_with_image = 0
     for it in items:
+        has_image = bool(it.images)
+        if has_image:
+            n_with_image += 1
         candidates.append(
             {
                 "item_id": it.item_id,
@@ -74,8 +83,10 @@ def filter_and_classify(items: list[Item], llm: LLMClient, top_k: int, categorie
                 "excerpt": truncate(it.raw_excerpt, 600),
                 "published_at": it.published_at.isoformat() if it.published_at else None,
                 "score_label": it.score_label,
+                "has_image": has_image,
             }
         )
+    log.info("候选含图: %d / %d", n_with_image, len(items))
 
     user = USER_TEMPLATE.format(
         n_items=len(items),
@@ -112,3 +123,23 @@ def filter_and_classify(items: list[Item], llm: LLMClient, top_k: int, categorie
     out.sort(key=lambda x: x.rank)
     log.info("LLM filter done: %d items selected", len(out))
     return out
+
+
+def cap_image_count(items: list[Item], max_with_image: int = 4) -> None:
+    """限制带图条数：超过 max_with_image 时按排名只保留前 max_with_image 条带图，其余清空。
+    在 archive 之后调用（archive 会把全文里的图加回来，所以最后再 cap）。"""
+    img_count = sum(1 for it in items if it.images)
+    if img_count <= max_with_image:
+        if img_count < 2:
+            log.info("最终带图 %d 条（少于期望的 2 条，候选池图源不够）", img_count)
+        else:
+            log.info("最终带图 %d 条", img_count)
+        return
+    kept = 0
+    for it in sorted(items, key=lambda x: x.rank):
+        if it.images:
+            if kept < max_with_image:
+                kept += 1
+            else:
+                it.images = []
+    log.info("图片后处理: %d → %d 条带图", img_count, max_with_image)

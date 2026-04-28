@@ -17,7 +17,7 @@ if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
 from scripts.archive import archive_item  # noqa: E402
-from scripts.filter import filter_and_classify  # noqa: E402
+from scripts.filter import cap_image_count, filter_and_classify  # noqa: E402
 from scripts.llm import LLMClient  # noqa: E402
 from scripts.notify import send_feishu  # noqa: E402
 from scripts.render import (  # noqa: E402
@@ -29,7 +29,7 @@ from scripts.render import (  # noqa: E402
 )
 from scripts.sources import build_source  # noqa: E402
 from scripts.sources.base import Item  # noqa: E402
-from scripts.utils import env_get, get_time_window, log, today_label  # noqa: E402
+from scripts.utils import enrich_images_parallel, env_get, get_time_window, log, today_label  # noqa: E402
 
 
 def load_dotenv() -> None:
@@ -155,6 +155,9 @@ def main() -> int:
         log.warning("没有采集到任何资讯，退出")
         return 1
 
+    # 1.5 给没有图片的候选并行抓 og:image，让 LLM 能保证 2-4 条带图
+    enrich_images_parallel(items, workers=12, timeout=5.0)
+
     # 2. LLM 筛选 + 摘要 + 分类
     llm = LLMClient(config.get("llm", {}))
     top_k = int(out_conf.get("daily_count", 10))
@@ -171,6 +174,9 @@ def main() -> int:
                 break
             archive_item(it, date_label)
             n += 1
+
+    # 3.5 archive 完成后再 cap 图片数（archive 会把全文图加回来，所以最后做）
+    cap_image_count(selected, max_with_image=4)
 
     # 4. 渲染 HTML
     render_daily(date_label, selected, site_conf)

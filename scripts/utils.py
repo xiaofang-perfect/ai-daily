@@ -168,4 +168,44 @@ def og_image(html: str) -> str | None:
         html or "",
         flags=re.IGNORECASE,
     )
+    if m:
+        return m.group(1)
+    # 兜底：twitter:image
+    m = re.search(
+        r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)["\']',
+        html or "",
+        flags=re.IGNORECASE,
+    )
     return m.group(1) if m else None
+
+
+def enrich_images_parallel(items, workers: int = 10, timeout: float = 5.0) -> int:
+    """并行抓 og:image 给没有图片的 item。返回新增了图片的 item 数。"""
+    from concurrent.futures import ThreadPoolExecutor
+
+    targets = [it for it in items if not it.images and it.url and not it.url.startswith("https://arxiv.org/")]
+
+    def _fetch(item) -> bool:
+        try:
+            with http_client(timeout=timeout) as c:
+                r = c.get(item.url)
+                if r.status_code != 200 or "text/html" not in r.headers.get("content-type", ""):
+                    return False
+                img = og_image(r.text)
+                if img and not img.startswith("data:"):
+                    item.images = [img]
+                    return True
+        except Exception:
+            pass
+        return False
+
+    if not targets:
+        return 0
+    log.info("og:image enrich: %d candidates", len(targets))
+    enriched = 0
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        for ok in ex.map(_fetch, targets):
+            if ok:
+                enriched += 1
+    log.info("og:image enrich: +%d images", enriched)
+    return enriched

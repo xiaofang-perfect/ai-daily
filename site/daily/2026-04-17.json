@@ -161,13 +161,7 @@
     "url": "https://www.together.ai/blog/parcae?utm_source=tldrai",
     "raw_excerpt": "Parcae is one of the first stable architectures for looped language models. It achieves the quality of a Transformer twice the size with clean, predictable training. Parcae increases the recurrence rather than purely scaling data, creating a new medium to scale quality. The name Parcae is a homage to the three Roman fates: Nona, Decima, and Morta.",
     "published_at": "2026-04-16T12:00:00+00:00",
-    "images": [
-      "https://cdn.prod.website-files.com/69654e88dce9154b5f12070c/69df18941023203d6804de21_20260414_Parcae_1200x630.jpg",
-      "https://cdn.prod.website-files.com/69654e88dce9154b5f12070c/69df1b3fba069a9480727626_Parcae-1.png",
-      "https://cdn.prod.website-files.com/69654e88dce9154b5f12070c/69df1b27adb25d4cf4b0d9bf_Parcae-2.png",
-      "https://cdn.prod.website-files.com/69654e88dce9154b5f12070c/69df1b145bd49729e005ee85_Parcae--3.png",
-      "https://cdn.prod.website-files.com/69654e88dce9154b5f12070c/69df1a631023203d6804ff39_parcae-4.png"
-    ],
+    "images": [],
     "score": null,
     "score_label": "",
     "item_id": "9a00c1afece4fb74",
@@ -184,9 +178,7 @@
     "url": "https://thenextweb.com/news/jane-street-coreweave-6-billion-cloud-1-billion-equity-ai?utm_source=tldrai",
     "raw_excerpt": "Jane Street is betting that the returns on AI-driven trading will justify $6 billion in cloud spending and a $1 billion equity position in the company providing it.",
     "published_at": "2026-04-16T12:00:00+00:00",
-    "images": [
-      "https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2026/04/jane-street-coreweave-6-billion-cloud-1-billion-equity-ai.png"
-    ],
+    "images": [],
     "score": null,
     "score_label": "",
     "item_id": "4036c39db6e08c54",
