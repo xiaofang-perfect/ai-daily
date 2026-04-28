@@ -19,7 +19,7 @@ The two companies’ oft-renegotiated deal has become even less exclusive.
 
 ![Photo collage of Sam Altman in front of the OpenAI logo.](https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25431707/STK201_SAM_ALTMAN_CVIRGINIA_D.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400)
 
-On Monday morning, Microsoft announced a handful of big changes to its long-standing OpenAI deal. Microsoft will remain OpenAI’s “primary cloud partner, and OpenAI products will ship first on Azure, unless Microsoft cannot and chooses not to support the necessary capabilities.” But OpenAI can “now serve all its products to customers across any cloud provider.” That lets OpenAI pursue its goals of courting enterprise customers as it reportedly prepares to go public — opening the door to working with Amazon or Google, for instance, and attempting to relieve restraints on its compute that have led to spats with Microsoft. Microsoft appears to still receive a cut of revenue from these outside agreements.
+On Monday morning, [Microsoft announced](https://blogs.microsoft.com/blog/2026/04/27/the-next-phase-of-the-microsoft-openai-partnership/) a handful of big changes to its long-standing OpenAI deal. Microsoft will remain OpenAI’s “primary cloud partner, and OpenAI products will ship first on Azure, unless Microsoft cannot and chooses not to support the necessary capabilities.” But OpenAI can “now serve all its products to customers across any cloud provider.” That lets OpenAI pursue its goals of courting enterprise customers as it reportedly prepares to go public — opening the door to working with Amazon or Google, for instance, and attempting to relieve restraints on its compute that have led to spats with Microsoft. Microsoft appears to still receive a cut of revenue from these outside agreements.
 
 Perhaps more notably, the two companies killed the contract’s “AGI clause,” which set a variety of conditions if one of them achieved “artificial general intelligence.” (It’s a vaguely defined industry term that typically means AI systems that equal or surpass human intelligence on a wide range of tasks.)
 
@@ -34,11 +34,3 @@ Microsoft previously owned about 27 percent (on an “as-converted diluted basis
 The [pressure is on for OpenAI to get closer to turning a profit](https://www.theverge.com/ai-artificial-intelligence/917380/ai-monetization-anthropic-openai-token-economics-revenue), and it and its competitors have been burning a lot of investor cash in their chase to acquire more compute and reach AGI. OpenAI has stated that it’s going all in on enterprise and coding in order to chase those bigger potential revenue drivers, and it’s been methodically cutting out [so-called “side quests” like Sora](https://www.theverge.com/ai-artificial-intelligence/902368/openai-sora-dead-ai-video-generation-competition) and ChatGPT’s planned erotica features. It also restructured its science department. The new deal with Microsoft is one more step.
 
 **Follow topics and authors**from this story to see more like this in your personalized homepage feed and to receive email updates.
-
-## Most Popular
-
-- Valve launches the Steam Controller without the Steam Machine
-- Jury selection in Musk v. Altman: ‘People don’t like him’
-- Samsung’s first smart glasses have leaked
-- Valve’s new Steam Controller isn’t perfect, but I’m buying one anyway
-- Conspiracy theories are swirling about the White House Correspondents’ Dinner shooting
