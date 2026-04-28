@@ -32,3 +32,11 @@ It was all mostly right, but I did catch a factual flub: YouTube claimed that th
 [YouTube says](https://support.google.com/youtube/thread/18138167?hl=en) it’s already “working on” expanding this experiment to users who don’t have Premium. Just as it’s continued to [iterate on AI Mode](https://www.theverge.com/tech/913109/google-ai-mode-tabs-sources) and [brought AI Mode to Gmail](https://www.theverge.com/news/857883/google-gmail-ai-inbox-overviews), it seems likely that “Ask YouTube” is something Google sees a big future for.
 
 **Follow topics and authors**from this story to see more like this in your personalized homepage feed and to receive email updates.
+
+## Most Popular
+
+- Valve launches the Steam Controller without the Steam Machine
+- Jury selection in Musk v. Altman: ‘People don’t like him’
+- Valve’s new Steam Controller isn’t perfect, but I’m buying one anyway
+- Samsung’s first smart glasses have leaked
+- Conspiracy theories are swirling about the White House Correspondents’ Dinner shooting

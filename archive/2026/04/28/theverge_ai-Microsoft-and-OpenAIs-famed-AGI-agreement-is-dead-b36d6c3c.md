@@ -34,3 +34,11 @@ Microsoft previously owned about 27 percent (on an “as-converted diluted basis
 The [pressure is on for OpenAI to get closer to turning a profit](https://www.theverge.com/ai-artificial-intelligence/917380/ai-monetization-anthropic-openai-token-economics-revenue), and it and its competitors have been burning a lot of investor cash in their chase to acquire more compute and reach AGI. OpenAI has stated that it’s going all in on enterprise and coding in order to chase those bigger potential revenue drivers, and it’s been methodically cutting out [so-called “side quests” like Sora](https://www.theverge.com/ai-artificial-intelligence/902368/openai-sora-dead-ai-video-generation-competition) and ChatGPT’s planned erotica features. It also restructured its science department. The new deal with Microsoft is one more step.
 
 **Follow topics and authors**from this story to see more like this in your personalized homepage feed and to receive email updates.
+
+## Most Popular
+
+- Valve launches the Steam Controller without the Steam Machine
+- Jury selection in Musk v. Altman: ‘People don’t like him’
+- Valve’s new Steam Controller isn’t perfect, but I’m buying one anyway
+- Samsung’s first smart glasses have leaked
+- Conspiracy theories are swirling about the White House Correspondents’ Dinner shooting

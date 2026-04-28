@@ -32,3 +32,11 @@ The letter specifically references a recent report by [ The Information](https:/
 [announced](https://www.theverge.com/ai-artificial-intelligence/886816/openai-reached-a-new-agreement-with-the-pentagon)a renegotiated agreement with the Pentagon in February.
 
 **Follow topics and authors**from this story to see more like this in your personalized homepage feed and to receive email updates.
+
+## Most Popular
+
+- Valve launches the Steam Controller without the Steam Machine
+- Jury selection in Musk v. Altman: ‘People don’t like him’
+- Valve’s new Steam Controller isn’t perfect, but I’m buying one anyway
+- Samsung’s first smart glasses have leaked
+- Conspiracy theories are swirling about the White House Correspondents’ Dinner shooting
