@@ -39,6 +39,6 @@ The [pressure is on for OpenAI to get closer to turning a profit](https://www.th
 
 - Valve launches the Steam Controller without the Steam Machine
 - Jury selection in Musk v. Altman: ‘People don’t like him’
-- Valve’s new Steam Controller isn’t perfect, but I’m buying one anyway
 - Samsung’s first smart glasses have leaked
+- Valve’s new Steam Controller isn’t perfect, but I’m buying one anyway
 - Conspiracy theories are swirling about the White House Correspondents’ Dinner shooting
