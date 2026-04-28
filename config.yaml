@@ -129,6 +129,70 @@ sources:
     feeds:
       - https://huggingface.co/blog/feed.xml
 
+  # ---- 公众号替代 / AI 厂商官方 ----
+  - id: geekpark
+    type: rss
+    label: "极客公园"
+    enabled: true
+    feeds:
+      - https://www.geekpark.net/rss
+
+  - id: qwen_blog
+    type: rss
+    label: "Qwen 千问博客"
+    enabled: true
+    feeds:
+      - https://qwenlm.github.io/blog/index.xml
+
+  - id: ai_releases
+    type: github_releases
+    label: "AI 模型发布"
+    enabled: true
+    repos:
+      - deepseek-ai/DeepSeek-V3
+      - deepseek-ai/DeepSeek-R1
+      - deepseek-ai/Janus
+      - QwenLM/Qwen2.5
+      - QwenLM/Qwen3
+      - meta-llama/llama3
+      - mistralai/mistral-inference
+
+  # ---- 每日精选 newsletter（支持按日期补历史）----
+  - id: tldr_ai_archive
+    type: tldr_archive
+    label: "TLDR AI"
+    enabled: true
+
+  - id: hf_papers_daily
+    type: hf_papers_daily
+    label: "HuggingFace Daily Papers"
+    enabled: true
+
+  - id: bens_bites
+    type: rss
+    label: "Ben's Bites"
+    enabled: true
+    feeds:
+      - https://www.bensbites.com/feed
+
+  - id: last_week_in_ai
+    type: rss
+    label: "Last Week in AI"
+    enabled: true
+    feeds:
+      - https://lastweekin.ai/feed
+
+  # ---- 36氪历史搜索 ----
+  # 36氪搜索页改成纯 SPA，HTML 里没有内容，需要走 JSON API 但 API 改动频繁、
+  # 鉴权脆弱。先禁用。最近 30 条用上面 kr36 RSS 已能覆盖；更老的 36氪内容暂不补。
+  - id: kr36_search
+    type: kr36_search
+    label: "36氪 AI 搜索"
+    enabled: false
+    query: "AI"
+    max_pages: 2
+    sleep_sec: 8.0
+
   # ---- 社区 ----
   - id: hackernews
     type: hackernews
@@ -184,8 +248,8 @@ sources:
   # ---- Newsletter（X 一手信息的二手聚合）----
   - id: tldr_ai
     type: rss
-    label: "TLDR AI"
-    enabled: true
+    label: "TLDR AI (RSS)"
+    enabled: false  # 被下方 tldr_ai_archive 替代（后者支持历史回填）
     feeds:
       - https://tldr.tech/api/rss/ai
 
