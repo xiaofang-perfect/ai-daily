@@ -1,0 +1,84 @@
+</div>{# /.layout #}
+
+<footer class="footer">
+  <p>每天 10:15 自动更新 · LLM 筛选 + 多源聚合</p>
+</footer>
+
+<script>
+const AVAILABLE = {{ available_dates_json|safe }};
+const DATE_SET = new Set(AVAILABLE);
+const CURRENT_DATE = "{{ date }}";
+const REL_ROOT = "{{ rel_root }}";
+const WEEKDAYS = ['日', '一', '二', '三', '四', '五', '六'];
+
+function fmt(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+let viewMonth = (() => {
+  if (CURRENT_DATE) {
+    const [y, m] = CURRENT_DATE.split('-').map(Number);
+    return new Date(y, m - 1, 1);
+  }
+  if (AVAILABLE.length > 0) {
+    const [y, m] = AVAILABLE[AVAILABLE.length - 1].split('-').map(Number);
+    return new Date(y, m - 1, 1);
+  }
+  const t = new Date();
+  return new Date(t.getFullYear(), t.getMonth(), 1);
+})();
+
+function render() {
+  const title = document.getElementById('cal-title');
+  const grid = document.getElementById('cal-grid');
+  title.textContent = `${viewMonth.getFullYear()} 年 ${viewMonth.getMonth() + 1} 月`;
+
+  const cells = [];
+  const first = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), 1);
+  const startDow = first.getDay();
+  const daysInMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 0).getDate();
+
+  for (let i = 0; i < startDow; i++) cells.push('<div class="cal-pad"></div>');
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), d);
+    const ds = fmt(date);
+    const has = DATE_SET.has(ds);
+    const isCurrent = ds === CURRENT_DATE;
+    const cls = ['cal-day'];
+    if (has) cls.push('cal-has');
+    else cls.push('cal-empty');
+    if (isCurrent) cls.push('cal-current');
+    if (has) {
+      cells.push(`<a class="${cls.join(' ')}" href="${REL_ROOT}daily/${ds}.html">${d}</a>`);
+    } else {
+      cells.push(`<div class="${cls.join(' ')}">${d}</div>`);
+    }
+  }
+  grid.innerHTML = cells.join('');
+}
+
+document.getElementById('prev-month').addEventListener('click', () => {
+  viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1);
+  render();
+});
+document.getElementById('next-month').addEventListener('click', () => {
+  viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1);
+  render();
+});
+
+// 移动端日历开关
+const toggleBtn = document.getElementById('cal-toggle');
+const sidebar = document.getElementById('sidebar');
+if (toggleBtn && sidebar) {
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+  });
+}
+
+render();
+</script>
+</body>
+</html>

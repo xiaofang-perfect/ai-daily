@@ -1,97 +1,48 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ site.title }}</title>
-<link rel="stylesheet" href="assets/style.css">
-</head>
-<body>
-<header class="topbar">
-  <h1>{{ site.title }}</h1>
-  <div class="date">日历首页</div>
-</header>
+{% include "_layout_head.html" %}
 
-<main class="container">
-  <p class="subtitle">{{ site.subtitle }}</p>
-
-  {% if latest %}
-  <div class="latest-card">
-    <div class="latest-label">最新一期</div>
-    <a class="latest-link" href="daily/{{ latest }}.html">{{ latest }} 日报 →</a>
-  </div>
-  {% endif %}
-
-  <section class="calendar">
-    <div class="cal-controls">
-      <button id="prev-month" type="button">←</button>
-      <div id="cal-title">—</div>
-      <button id="next-month" type="button">→</button>
+<main class="content">
+  {% if not items or items|length == 0 %}
+    <div class="empty">
+      <h2>欢迎</h2>
+      <p>{{ site.subtitle }}</p>
+      <p>第一期日报生成中，请稍候。</p>
     </div>
-    <div id="cal-grid" class="cal-grid"></div>
-    <p class="cal-hint">已有日报的日期高亮可点。共 {{ available_dates|length }} 期。</p>
-  </section>
+  {% else %}
+    <div class="content-meta">
+      <h2 class="content-date">{{ date }} 日报 <span class="latest-badge">最新</span></h2>
+      <p class="subtitle">{{ site.subtitle }} · 共 {{ items|length }} 条 · 生成于 {{ generated_at }}</p>
+    </div>
+
+    {% for it in items %}
+    <article class="item">
+      <div class="item-head">
+        <span class="rank">#{{ it.rank }}</span>
+        <span class="tag tag-{{ tag_class(it.tag) }}">{{ it.tag }}</span>
+        <span class="src">{{ it.source_label }}</span>
+        {% if it.score_label %}<span class="score">{{ it.score_label }}</span>{% endif %}
+      </div>
+      <h2 class="title">
+        <a href="{{ it.url }}" target="_blank" rel="noopener noreferrer">{{ it.title }}</a>
+      </h2>
+      <p class="summary">{{ it.summary }}</p>
+      {% if it.images %}
+      <div class="images">
+        {% for img in it.images[:2] %}
+        <a href="{{ it.url }}" target="_blank" rel="noopener noreferrer">
+          <img src="{{ img }}" alt="" loading="lazy" referrerpolicy="no-referrer">
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <div class="item-foot">
+        <a class="link" href="{{ it.url }}" target="_blank" rel="noopener noreferrer">查看原文 →</a>
+        {% if it.archive_path %}
+        <a class="archive" href="{{ rel_root }}{{ it.archive_path }}" target="_blank" rel="noopener noreferrer">全文留痕</a>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  {% endif %}
 </main>
 
-<footer class="footer">
-  <p>每天 10:15 自动更新 · LLM 筛选 + 多源聚合</p>
-</footer>
-
-<script>
-const AVAILABLE = {{ available_dates_json|safe }};
-const DATE_SET = new Set(AVAILABLE);
-const WEEKDAYS = ['日', '一', '二', '三', '四', '五', '六'];
-
-function fmt(d) {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
-}
-
-let current = (() => {
-  if (AVAILABLE.length > 0) {
-    const [y, m] = AVAILABLE[AVAILABLE.length - 1].split('-').map(Number);
-    return new Date(y, m - 1, 1);
-  }
-  const t = new Date();
-  return new Date(t.getFullYear(), t.getMonth(), 1);
-})();
-
-function render() {
-  const title = document.getElementById('cal-title');
-  const grid = document.getElementById('cal-grid');
-  title.textContent = `${current.getFullYear()} 年 ${current.getMonth() + 1} 月`;
-
-  const cells = [];
-  WEEKDAYS.forEach(w => cells.push(`<div class="cal-head">${w}</div>`));
-
-  const first = new Date(current.getFullYear(), current.getMonth(), 1);
-  const startDow = first.getDay();
-  const daysInMonth = new Date(current.getFullYear(), current.getMonth() + 1, 0).getDate();
-
-  for (let i = 0; i < startDow; i++) cells.push('<div class="cal-pad"></div>');
-  for (let d = 1; d <= daysInMonth; d++) {
-    const date = new Date(current.getFullYear(), current.getMonth(), d);
-    const ds = fmt(date);
-    if (DATE_SET.has(ds)) {
-      cells.push(`<a class="cal-day cal-has" href="daily/${ds}.html">${d}</a>`);
-    } else {
-      cells.push(`<div class="cal-day cal-empty">${d}</div>`);
-    }
-  }
-  grid.innerHTML = cells.join('');
-}
-
-document.getElementById('prev-month').addEventListener('click', () => {
-  current = new Date(current.getFullYear(), current.getMonth() - 1, 1);
-  render();
-});
-document.getElementById('next-month').addEventListener('click', () => {
-  current = new Date(current.getFullYear(), current.getMonth() + 1, 1);
-  render();
-});
-render();
-</script>
-</body>
-</html>
+{% include "_layout_foot.html" %}

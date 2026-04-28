@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ site.title }}{% if date %} · {{ date }}{% endif %}</title>
+<link rel="stylesheet" href="{{ rel_root }}assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <h1>{{ site.title }}</h1>
+  <button id="cal-toggle" class="cal-toggle" type="button" aria-label="日历">📅</button>
+  <div class="date">{{ date }}</div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="cal-controls">
+      <button id="prev-month" type="button" aria-label="上个月">←</button>
+      <div id="cal-title">—</div>
+      <button id="next-month" type="button" aria-label="下个月">→</button>
+    </div>
+    <div class="cal-weekdays">
+      <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
+    </div>
+    <div id="cal-grid" class="cal-grid"></div>
+    <p class="cal-hint">橙色 = 已有日报</p>
+    <p class="cal-count">共 {{ available_dates|length }} 期</p>
+  </aside>

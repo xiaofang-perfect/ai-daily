@@ -1,4 +1,4 @@
-"""HTML 渲染：每日页 + 日历首页 + 静态资源。"""
+"""HTML 渲染：每日页 + 首页（最新一期 + 日历侧栏）+ 静态资源。"""
 from __future__ import annotations
 
 import json
@@ -36,10 +36,29 @@ def _env() -> Environment:
     )
 
 
+def _scan_dates() -> list[str]:
+    daily_dir = project_root() / "site" / "daily"
+    daily_dir.mkdir(parents=True, exist_ok=True)
+    return sorted(
+        [
+            p.stem
+            for p in daily_dir.glob("*.html")
+            if re.fullmatch(r"\d{4}-\d{2}-\d{2}", p.stem)
+        ]
+    )
+
+
 def render_daily(date_label: str, items: list[Item], site_conf: dict[str, Any]) -> Path:
     env = _env()
     tpl = env.get_template("daily.html")
     source_summary = ", ".join(sorted({it.source_label.split(" · ")[0] for it in items})) or "—"
+
+    # 渲染前需要扫一次 dates，并把今天加进去（因为 daily 文件还没写到磁盘）
+    dates = _scan_dates()
+    if date_label not in dates:
+        dates.append(date_label)
+    dates.sort()
+
     html = tpl.render(
         site=site_conf,
         date=date_label,
@@ -48,6 +67,8 @@ def render_daily(date_label: str, items: list[Item], site_conf: dict[str, Any]) 
         generated_at=datetime.now().strftime("%Y-%m-%d %H:%M"),
         source_summary=source_summary,
         tag_class=_tag_class,
+        available_dates=dates,
+        available_dates_json=json.dumps(dates),
     )
     out_dir = project_root() / "site" / "daily"
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -57,30 +78,27 @@ def render_daily(date_label: str, items: list[Item], site_conf: dict[str, Any]) 
     return out_path
 
 
-def render_index(site_conf: dict[str, Any]) -> Path:
-    """扫描 site/daily/*.html 生成日历首页。"""
-    site_dir = project_root() / "site"
-    daily_dir = site_dir / "daily"
-    daily_dir.mkdir(parents=True, exist_ok=True)
-    dates = sorted(
-        [
-            p.stem
-            for p in daily_dir.glob("*.html")
-            if re.fullmatch(r"\d{4}-\d{2}-\d{2}", p.stem)
-        ]
-    )
-
+def render_index(date_label: str, items: list[Item], site_conf: dict[str, Any]) -> Path:
+    """首页 = 最新一期内容 + 左侧日历。"""
     env = _env()
     tpl = env.get_template("index.html")
+    dates = _scan_dates()
+    source_summary = ", ".join(sorted({it.source_label.split(" · ")[0] for it in items})) or "—"
+
     html = tpl.render(
         site=site_conf,
+        date=date_label,
+        items=items,
+        rel_root="",
+        generated_at=datetime.now().strftime("%Y-%m-%d %H:%M"),
+        source_summary=source_summary,
+        tag_class=_tag_class,
         available_dates=dates,
         available_dates_json=json.dumps(dates),
-        latest=dates[-1] if dates else "",
     )
-    out_path = site_dir / "index.html"
+    out_path = project_root() / "site" / "index.html"
     out_path.write_text(html, encoding="utf-8")
-    log.info("rendered index with %d dates", len(dates))
+    log.info("rendered index with %d dates (latest: %s)", len(dates), date_label)
     return out_path
 
 

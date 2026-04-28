@@ -1,24 +1,17 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ site.title }} · {{ date }}</title>
-<link rel="stylesheet" href="{{ rel_root }}assets/style.css">
-</head>
-<body>
-<header class="topbar">
-  <a class="back" href="{{ rel_root }}index.html">← 日历</a>
-  <h1>{{ site.title }}</h1>
-  <div class="date">{{ date }}</div>
-</header>
+{% include "_layout_head.html" %}
 
-<main class="container">
-  <p class="subtitle">{{ site.subtitle }} · 共 {{ items|length }} 条 · 生成于 {{ generated_at }}</p>
-
-  {% if items|length == 0 %}
-    <div class="empty">今日无采集结果。</div>
+<main class="content">
+  {% if not items or items|length == 0 %}
+    <div class="empty">
+      <h2>{{ date }}</h2>
+      <p>这一天没有采集结果。</p>
+    </div>
   {% else %}
+    <div class="content-meta">
+      <h2 class="content-date">{{ date }} 日报</h2>
+      <p class="subtitle">{{ site.subtitle }} · 共 {{ items|length }} 条 · 生成于 {{ generated_at }}</p>
+    </div>
+
     {% for it in items %}
     <article class="item">
       <div class="item-head">
@@ -51,9 +44,4 @@
   {% endif %}
 </main>
 
-<footer class="footer">
-  <p>由 LLM 自动筛选 · 数据来源：{{ source_summary }}</p>
-  <p><a href="{{ rel_root }}index.html">← 返回日历首页</a></p>
-</footer>
-</body>
-</html>
+{% include "_layout_foot.html" %}

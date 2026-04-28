@@ -131,7 +131,7 @@ def main() -> int:
     render_daily(date_label, selected, site_conf)
     copy_archive_to_site(date_label)
     copy_assets()
-    render_index(site_conf)
+    render_index(date_label, selected, site_conf)
 
     # 5. 飞书通知
     if not args.no_notify:
