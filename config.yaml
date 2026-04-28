@@ -1,0 +1,212 @@
+# 每日 AI 资讯 - 全局配置
+# 所有可调参数都在这里。改完无需改代码。
+
+site:
+  title: "每日 AI 资讯"
+  subtitle: "每天 10:15 更新前 24 小时全球 AI 圈精选"
+  timezone: "Asia/Shanghai"
+  # 采集时间窗：每天的"前一天 X 点 到 今天 X 点"
+  daily_cutoff_hour: 10
+
+# ===== LLM 配置 =====
+# 改 provider/model/base_url 即可换模型，无需改代码。
+llm:
+  provider: "openai_compatible"   # openai_compatible | anthropic | gemini
+  model: "deepseek-chat"
+  base_url: "https://api.deepseek.com/v1"
+  # api_key 从环境变量 LLM_API_KEY 读取
+  temperature: 0.3
+  max_tokens: 8000
+
+  # 备用配置示例（注释掉，需要时切换上面的字段即可）
+  # ---- OpenAI ----
+  # provider: "openai_compatible"
+  # model: "gpt-4o-mini"
+  # base_url: "https://api.openai.com/v1"
+  # ---- Anthropic Claude ----
+  # provider: "anthropic"
+  # model: "claude-sonnet-4-6"
+  # base_url: "https://api.anthropic.com"
+  # ---- 通义千问（dashscope OpenAI 兼容模式）----
+  # provider: "openai_compatible"
+  # model: "qwen-max"
+  # base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  # ---- Moonshot ----
+  # provider: "openai_compatible"
+  # model: "moonshot-v1-32k"
+  # base_url: "https://api.moonshot.cn/v1"
+  # ---- 智谱 GLM ----
+  # provider: "openai_compatible"
+  # model: "glm-4"
+  # base_url: "https://open.bigmodel.cn/api/paas/v4"
+
+# ===== 输出 =====
+output:
+  daily_count: 10              # 每天最终展示的条数
+  per_source_collect: 30       # 每个来源最多采多少条原料给 LLM 筛选
+  archive_full_text: true      # 是否抓全文存 markdown 留痕
+  categories:                  # 分类标签
+    - "论文研究"
+    - "产品发布"
+    - "行业动态"
+    - "工具开源"
+
+# ===== 采集来源 =====
+# 每条 enabled: false 即可临时禁用。
+sources:
+
+  # ---- 综合 RSS（英文）----
+  - id: theverge_ai
+    type: rss
+    label: "The Verge AI"
+    enabled: true
+    feeds:
+      - https://www.theverge.com/rss/ai-artificial-intelligence/index.xml
+
+  - id: mit_tr
+    type: rss
+    label: "MIT Technology Review"
+    enabled: true
+    feeds:
+      - https://www.technologyreview.com/feed/
+
+  - id: anthropic_blog
+    type: rss
+    label: "Anthropic"
+    enabled: false  # Anthropic 无公开 RSS，等 v2 接 sitemap 抓取
+    feeds: []
+
+  - id: openai_blog
+    type: rss
+    label: "OpenAI"
+    enabled: true
+    feeds:
+      - https://openai.com/blog/rss.xml
+
+  - id: deepmind_blog
+    type: rss
+    label: "Google DeepMind"
+    enabled: true
+    feeds:
+      - https://deepmind.google/blog/rss.xml
+
+  # ---- 综合 RSS（中文）----
+  - id: jiqizhixin
+    type: rss
+    label: "机器之心"
+    enabled: false  # 官方 RSS 已停更，等 v2 加专用爬虫
+    feeds:
+      - https://www.jiqizhixin.com/rss
+
+  - id: qbitai
+    type: rss
+    label: "量子位"
+    enabled: true
+    feeds:
+      - https://www.qbitai.com/feed
+
+  - id: kr36
+    type: rss
+    label: "36氪"
+    enabled: true
+    feeds:
+      - https://36kr.com/feed
+
+  # ---- 论文 ----
+  - id: arxiv_csai
+    type: arxiv
+    label: "ArXiv cs.AI"
+    enabled: true
+    categories:
+      - cs.AI
+      - cs.LG
+      - cs.CL
+
+  - id: hf_blog
+    type: rss
+    label: "HuggingFace Blog"
+    enabled: true
+    feeds:
+      - https://huggingface.co/blog/feed.xml
+
+  # ---- 社区 ----
+  - id: hackernews
+    type: hackernews
+    label: "Hacker News"
+    enabled: true
+    keywords:
+      - AI
+      - LLM
+      - GPT
+      - Claude
+      - Gemini
+      - Anthropic
+      - OpenAI
+      - DeepMind
+      - LLaMA
+      - Mistral
+
+  - id: reddit
+    type: reddit
+    label: "Reddit"
+    enabled: true
+    subreddits:
+      - MachineLearning
+      - LocalLLaMA
+      - artificial
+      - singularity
+      - OpenAI
+
+  - id: github_trending
+    type: github_trending
+    label: "GitHub Trending"
+    enabled: true
+    languages:
+      - python
+      - typescript
+      - all
+    ai_keywords:
+      - ai
+      - llm
+      - agent
+      - rag
+      - embedding
+      - transformer
+      - diffusion
+      - mcp
+
+  - id: producthunt
+    type: producthunt
+    label: "Product Hunt"
+    enabled: false  # 需要 token，v2 再开
+    topic: artificial-intelligence
+
+  # ---- Newsletter（X 一手信息的二手聚合）----
+  - id: tldr_ai
+    type: rss
+    label: "TLDR AI"
+    enabled: true
+    feeds:
+      - https://tldr.tech/api/rss/ai
+
+  # ---- X / Twitter（RSSHub 部署后启用）----
+  - id: x_via_rsshub
+    type: rsshub_twitter
+    label: "X"
+    enabled: false  # 等 RSSHub 部署完再开
+    handles:
+      - sama
+      - darioamodei
+      - elonmusk
+      - demishassabis
+      - ilyasut
+      - karpathy
+      - ylecun
+      - drjimfan
+      - gdb
+      - OpenAI
+      - AnthropicAI
+      - GoogleDeepMind
+      - nvidia
+      - xai
+      - MistralAI

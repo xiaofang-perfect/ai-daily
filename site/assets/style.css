@@ -1,0 +1,252 @@
+/* 每日 AI 资讯 - 简洁阅读风格 */
+:root {
+  --bg: #fafaf7;
+  --bg-card: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e6e6e2;
+  --link: #2563eb;
+  --accent: #ff6b35;
+  --tag-bg: #f1f0eb;
+  --tag-paper: #e8eef9;
+  --tag-product: #fdf2e9;
+  --tag-industry: #ecf3ec;
+  --tag-tool: #f3ecf6;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+               "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.topbar {
+  border-bottom: 1px solid var(--line);
+  padding: 22px 24px 18px;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: var(--bg-card);
+}
+.topbar h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.topbar .date {
+  color: var(--muted);
+  font-size: 14px;
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+.topbar .back {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0 0 28px;
+}
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 60px 0;
+}
+
+/* ---- 单条资讯 ---- */
+.item {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+.item-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.rank {
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.tag {
+  background: var(--tag-bg);
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+.tag-paper { background: var(--tag-paper); color: #1e3a8a; }
+.tag-product { background: var(--tag-product); color: #9a3412; }
+.tag-industry { background: var(--tag-industry); color: #365e36; }
+.tag-tool { background: var(--tag-tool); color: #6d3a87; }
+
+.src { color: var(--muted); }
+.score { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 6px 0 10px;
+  line-height: 1.45;
+}
+.title a { color: var(--fg); }
+.title a:hover { color: var(--link); }
+
+.summary {
+  margin: 0 0 12px;
+  color: #2a2a2a;
+}
+
+.images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 8px;
+  margin: 10px 0 12px;
+}
+.images img {
+  width: 100%;
+  height: auto;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: #f3f3f0;
+}
+
+.item-foot {
+  display: flex;
+  gap: 16px;
+  font-size: 13.5px;
+  margin-top: 6px;
+}
+.archive { color: var(--muted); }
+
+/* ---- 日历首页 ---- */
+.latest-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.latest-label {
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--tag-bg);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.latest-link {
+  font-weight: 600;
+}
+
+.calendar {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px 20px 20px;
+}
+.cal-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+.cal-controls button {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--fg);
+}
+.cal-controls button:hover { background: var(--tag-bg); }
+#cal-title {
+  font-size: 16px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.cal-head {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 6px 0;
+}
+.cal-day, .cal-pad {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  border-radius: 6px;
+}
+.cal-empty { color: #c5c5c0; }
+.cal-has {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cal-has:hover { opacity: 0.85; text-decoration: none; }
+.cal-hint {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12.5px;
+  margin: 14px 0 0;
+}
+
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 30px 20px 40px;
+  border-top: 1px solid var(--line);
+  margin-top: 30px;
+}
+.footer p { margin: 4px 0; }
+
+/* 移动端 */
+@media (max-width: 640px) {
+  .topbar { padding: 16px 16px 14px; }
+  .topbar h1 { font-size: 19px; }
+  .container { padding: 16px 14px 30px; }
+  .item { padding: 14px 16px; }
+  .title { font-size: 16.5px; }
+}

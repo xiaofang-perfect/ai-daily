@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ site.title }} · {{ date }}</title>
+<link rel="stylesheet" href="{{ rel_root }}assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="back" href="{{ rel_root }}index.html">← 日历</a>
+  <h1>{{ site.title }}</h1>
+  <div class="date">{{ date }}</div>
+</header>
+
+<main class="container">
+  <p class="subtitle">{{ site.subtitle }} · 共 {{ items|length }} 条 · 生成于 {{ generated_at }}</p>
+
+  {% if items|length == 0 %}
+    <div class="empty">今日无采集结果。</div>
+  {% else %}
+    {% for it in items %}
+    <article class="item">
+      <div class="item-head">
+        <span class="rank">#{{ it.rank }}</span>
+        <span class="tag tag-{{ tag_class(it.tag) }}">{{ it.tag }}</span>
+        <span class="src">{{ it.source_label }}</span>
+        {% if it.score_label %}<span class="score">{{ it.score_label }}</span>{% endif %}
+      </div>
+      <h2 class="title">
+        <a href="{{ it.url }}" target="_blank" rel="noopener noreferrer">{{ it.title }}</a>
+      </h2>
+      <p class="summary">{{ it.summary }}</p>
+      {% if it.images %}
+      <div class="images">
+        {% for img in it.images[:2] %}
+        <a href="{{ it.url }}" target="_blank" rel="noopener noreferrer">
+          <img src="{{ img }}" alt="" loading="lazy" referrerpolicy="no-referrer">
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <div class="item-foot">
+        <a class="link" href="{{ it.url }}" target="_blank" rel="noopener noreferrer">查看原文 →</a>
+        {% if it.archive_path %}
+        <a class="archive" href="{{ rel_root }}{{ it.archive_path }}" target="_blank" rel="noopener noreferrer">全文留痕</a>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  {% endif %}
+</main>
+
+<footer class="footer">
+  <p>由 LLM 自动筛选 · 数据来源：{{ source_summary }}</p>
+  <p><a href="{{ rel_root }}index.html">← 返回日历首页</a></p>
+</footer>
+</body>
+</html>
