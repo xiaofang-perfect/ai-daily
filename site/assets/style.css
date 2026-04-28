@@ -265,7 +265,7 @@ a:hover { text-decoration: underline; }
 }
 .cal-has:hover { opacity: 0.85; text-decoration: none; }
 .cal-current {
-  outline: 2px solid var(--fg);
+  outline: 1px solid var(--fg);
   outline-offset: 1px;
 }
 .cal-hint, .cal-count {

@@ -3,7 +3,7 @@ title: "microsoft/VibeVoice"
 source: GitHub Trending
 url: https://github.com/microsoft/VibeVoice
 date: 2026-04-28
-published_at: 2026-04-28T09:50:46.429038+00:00
+published_at: 2026-04-28T10:14:37.898558+00:00
 tag: 工具开源
 item_id: 0893831daa409617
 ---

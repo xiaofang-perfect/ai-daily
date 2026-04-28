@@ -4,7 +4,7 @@ source: MIT Technology Review
 url: https://www.technologyreview.com/2026/04/27/1136438/the-download-deepseek-v4-ai-world-models/
 date: 2026-04-28
 published_at: 2026-04-27T12:10:00+00:00
-tag: 产品发布
+tag: 论文研究
 item_id: 77038758ae4f7d20
 ---
 # The Download: DeepSeek’s latest AI breakthrough, and the race to build world models

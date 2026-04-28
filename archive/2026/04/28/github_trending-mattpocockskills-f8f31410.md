@@ -3,7 +3,7 @@ title: "mattpocock/skills"
 source: GitHub Trending
 url: https://github.com/mattpocock/skills
 date: 2026-04-28
-published_at: 2026-04-28T09:50:48.803635+00:00
+published_at: 2026-04-28T10:14:39.853768+00:00
 tag: 工具开源
 item_id: f8f314103a3f5b64
 ---
@@ -28,6 +28,12 @@ Bam - you're ready to go.
 
 I built these skills as a way to fix common failure modes I see with Claude Code, Codex, and other coding agents.
 
+"No-one knows exactly what they want"
+
+David Thomas & Andrew Hunt,
+
+[The Pragmatic Programmer]
+
 **The Problem**. The most common failure mode in software development is misalignment. You think the dev knows what you want. Then you see what they've built - and you realize it didn't understand you at all.
 
 This is just the same in the AI age. There is a communication gap between you and the agent. The fix for this is a **grilling session** - getting the agent to ask you detailed questions about what you're building.
@@ -43,6 +49,12 @@ This is just the same in the AI age. There is a communication gap between you an
 , but adds more goodies (see below)
 
 These are my most popular skills. They help you align with the agent before you get started, and think deeply about the change you're making. Use them *every* time you want to make a change.
+
+With a ubiquitous language, conversations among developers and expressions of the code are all derived from the same domain model.
+
+Eric Evans,
+
+[Domain-Driven-Design]
 
 **The Problem**: At the start of a project, devs and the people they're building the software for (the domain experts) are usually speaking different languages.
 
