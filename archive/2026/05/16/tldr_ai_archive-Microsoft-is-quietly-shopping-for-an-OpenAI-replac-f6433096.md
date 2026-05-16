@@ -1,0 +1,42 @@
+---
+title: "Microsoft is quietly shopping for an OpenAI replacement"
+source: TLDR AI · 2026-05-15
+url: https://thenextweb.com/news/microsoft-startup-deals-life-after-openai?utm_source=tldrai
+date: 2026-05-16
+published_at: 2026-05-15T12:00:00+00:00
+tag: 行业动态
+item_id: f643309652f3bbd3
+---
+*The company that put $13bn into OpenAI now wants the option not to need it. Cursor was the first try and fell apart over GitHub Copilot; talks with Stanford diffusion-LLM startup Inception are alive, and the broader strategy belongs to Mustafa Suleyman.*
+
+Reuters reported on Wednesday, citing five people familiar with the matter, that the company has been quietly canvassing AI startups for acquisitions or strategic deals as it builds out the option to operate without OpenAI.
+
+Three weeks after rewriting [the contract that bound it to OpenAI](https://thenextweb.com/news/microsoft-openai-exclusive-licence-ends) for the better part of a decade, that option is no longer theoretical.
+
+The most concrete attempt so far ended in retreat. This spring, Microsoft weighed buying Cursor, the code-generation startup whose annualised revenue went from zero to $2bn in three years, then walked away.
+
+The internal verdict was that owning GitHub Copilot and acquiring Cursor at the same time was a regulatory fight Microsoft did not want to pick. Days later, Elon Musk’s newly merged SpaceX-xAI vehicle bought a $60bn option on Cursor instead, with a $10bn breakup fee attached. The losing bidder paid nothing, kept Copilot, and lost the asset.
+
+The active conversation now is with Inception, a Palo Alto startup spun out of Stanford by professor Stefano Ermon. Inception is one of the very few groups outside the major labs building diffusion-based language models rather than autoregressive ones, an architecture that processes tokens in parallel instead of one at a time and which Ermon claims runs at over 1,000 tokens per second.
+
+Microsoft’s M12 fund already participated in the company’s $50m round last November. Reuters reports the parent company is now in talks about something larger.
+
+Both deals belong to the same brief: stock up on talent and architectural diversity before the in-house programme has to carry the weight on its own. That programme has a name and a leader.
+
+The [MAI Superintelligence team](https://thenextweb.com/news/microsoft-mai-models-openai-independence), set up in November 2025 under Mustafa Suleyman, shipped its first three foundation models in April: MAI-Transcribe-1, MAI-Voice-1, and MAI-Image-2. A frontier general-purpose LLM is, per Suleyman’s own March memo, the 2027 target.
+
+The trigger for all of this is the deal Microsoft signed on 27 April. The amendment ended Microsoft’s exclusive licence to OpenAI’s models, freed OpenAI to sell on AWS and any other cloud, and removed the so-called AGI clause that would have triggered changes to Microsoft’s IP rights once OpenAI’s board declared the threshold reached.
+
+Microsoft kept the IP licence through 2032, a 27% stake worth roughly $135bn at last disclosure, and an Azure-first deployment clause for new OpenAI products. What it gave up, in plain English, was the implicit assumption that OpenAI would be the only frontier lab Microsoft would ever need.
+
+There is something quietly funny about a company spending $13bn on a partner and then immediately starting a shadow procurement process for the replacement. Microsoft does not put it that way, and Reuters’ sources do not quote anyone using the word replacement.
+
+Both Cursor and Inception target the same gap, which is not the AGI race itself but the layer underneath it: code generation, model architecture, the working assumption that whoever owns the developer surface owns the next decade.
+
+What Suleyman has not said publicly is which of the startups currently sitting in Microsoft’s pipeline get bought, which get partnered with, and which get watched until someone else buys them first. SpaceX has made it expensive to be the second bidder for the same asset.
+
+The pipeline itself is the news, but whether it produces a named acquisition before year-end is the next thing to watch for us.
+
+## Get the TNW newsletter
+
+Get the most important tech news in your inbox each week.
