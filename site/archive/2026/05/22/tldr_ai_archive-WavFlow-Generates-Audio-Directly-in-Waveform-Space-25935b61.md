@@ -1,0 +1,165 @@
+---
+title: "WavFlow Generates Audio Directly in Waveform Space (GitHub Repo)"
+source: TLDR AI · 2026-05-21
+url: https://github.com/facebookresearch/WavFlow?utm_source=tldrai
+date: 2026-05-22
+published_at: 2026-05-21T12:00:00+00:00
+tag: 工具开源
+item_id: 25935b61995af6f9
+---
+[Feiyan Zhou](https://zhoufeiyn.github.io/)1,2 ·
+[Luyuan Wang](https://www.luyuan.wang/)1 ·
+[Shoufa Chen](https://www.shoufachen.com/)1,* ·
+[Zhe Wang](https://wangzheallen.github.io/)1 ·
+[Zhiheng Liu](https://johanan528.github.io/)1 ·
+[Yuren Cong](https://yrcong.github.io/)1 ·
+[Xiaohui Zhang](https://www.linkedin.com/in/xiaohui-zhang-79569539)1 ·
+[Fanny Yang](https://www.linkedin.com/in/fanny-yang-035861128)1 ·
+[Belinda Zeng](https://www.linkedin.com/in/belindazeng)1
+
+1 Meta AI · 2 Northeastern University
+
+**WavFlow** introduces a paradigm for generating synchronized, high-fidelity audio from video and text inputs directly in the **raw waveform space**, bypassing latent compression entirely. Through *waveform patchifying* and *amplitude lifting*, WavFlow enables stable flow matching on raw audio via direct *x*-prediction. Evaluation on the VGGSound (VT2A) and AudioCaps (T2A) benchmarks shows that WavFlow delivers performance on par with established latent-based methods, proving that end-to-end waveform generation can match traditional frameworks in acoustic richness, fidelity, and synchronization.
+
+|
+## forest.mp4 |
+## frog.mp4 |
+|
+## drum.mp4 |
+## skateboard.mp4 |
+
+See the
+
+for 24+ samples and side-by-side benchmark comparisons.[Project Page]
+
+```
+git clone https://github.com/facebookresearch/WavFlow.git
+cd WavFlow
+bash scripts/setup.sh # creates conda env 'wavflow' and installs everything
+conda activate wavflow
+```
+
+## Manual setup
+
+```
+conda create -n wavflow python=3.10 -y
+conda activate wavflow
+pip install -r requirements.txt
+pip install -e . --no-deps
+conda install -n wavflow -c conda-forge "ffmpeg<7" -y # for torio video decoding
+```
+
+All required external weights (CLIP, Synchformer, the empty-string CFG embedding) are downloaded or computed automatically on first run and cached under
+
+`~/.cache/wavflow/`
+
+.
+
+
+⚠️ Due to organizational policy constraints, we are currently unable to release the production-trained checkpoints. We are working on a foundation checkpoint trained on fully open-source data; in the meantime you can train your own — see the[training guide].
+
+Once you have a trained checkpoint, run:
+
+`bash scripts/launch/predict.sh [--gpu N] [--config PATH]`
+
+The default config is `wavflow/configs/infer.yaml`
+
+. The input CSV (`data.csv_path`
+
+) accepts video, text, or both:
+
+```
+video_path,caption,video_exist,text_exist
+/abs/path/sample1.mp4,a whistling rocket explodes,1,1 # video + text
+/abs/path/sample2.mp4,birds chirping in a forest,1,1 # video + text
+,a whistling rocket explodes,0,1 # text-only
+/abs/path/sample3.mp4,,1,0 # video-only
+```
+
+## Configuration reference
+
+| Flag / env | Default | Description |
+|---|---|---|
+`--gpu N` (or `GPU=N` ) |
+`0` |
+CUDA device index |
+`--config PATH` (or `CONFIG_PATH=...` ) |
+`wavflow/configs/infer.yaml` |
+YAML config to load |
+`WAVFLOW_ENV` |
+`wavflow` |
+conda env name to auto-activate |
+
+Any extra positional argument is forwarded to `python -m wavflow.infer`
+
+.
+
+| Field | What to set |
+|---|---|
+`data.csv_path` |
+the input CSV (above) |
+`model.name` |
+one of `medium_16k` , `medium_44k` , `large_16k` , `large_44k` (must match the trained ckpt) |
+`model.ckpt_path` |
+a `checkpoint_*.pth` (full ckpt) or `ema_epoch_*.pth` (EMA-only) |
+`model.use_ema` |
+`true` to load `model_ema1` from a full ckpt; `false` to use the live `model` weights |
+`inference.duration_sec` / `target_sample_rate` |
+output length and SR (must match model arch) |
+`inference.cfg` , `num_steps` , `noise_scale` , `noise_shift` , `prediction_type` , `seed` |
+sampling hyperparameters |
+`inference.batch_size` |
+rows per ODE batch |
+`inference.trim_to_duration` |
+trim output to `duration_sec` |
+`output.output_dir` |
+where wavs are written |
+`output.loudness_norm` , `loudness_target_lufs` |
+optional `pyloudnorm` post-processing |
+
+`video_exist=0`
+
+→ uses learned empty CLIP/Sync tokens (no video decode)`text_exist=0`
+
+→ uses learned empty CLIP-text token (caption ignored)- Optional
+`id`
+
+column; otherwise the wav file name is derived from`Path(video_path).stem`
+
+, falling back to`row_<idx>`
+
+for text-only rows - Captions with commas must be quoted
+
+The EMA tensor stored as `model_ema1`
+
+is updated with `ema_decay = 0.9999`
+
+per step. After only a few hundred / thousand steps it still contains random-init values and produces noise during inference. Set `model.use_ema: false`
+
+(or pass an `ema_epoch_*.pth`
+
+saved after enough steps) when sampling from a short / overfit run.
+
+For feature extraction and training (single-node and multi-node), see ** TRAINING.md**.
+
+```
+@misc{zhou2026wavflowaudiogenerationwaveform,
+title={WavFlow: Audio Generation in Waveform Space},
+author={Feiyan Zhou and Luyuan Wang and Shoufa Chen and Zhe Wang and Zhiheng Liu and Yuren Cong and Xiaohui Zhang and Fanny Yang and Belinda Zeng},
+year={2026},
+eprint={2605.18749},
+archivePrefix={arXiv},
+primaryClass={cs.SD},
+url={https://arxiv.org/abs/2605.18749},
+}
+```
+
+WavFlow builds on the open-source community. We gratefully acknowledge:
+
+— multimodal audio generation[MMAudio](https://github.com/hkchengrex/MMAudio)— Just Image Transformer[JiT](https://github.com/LTH14/JiT)— audio-visual synchronization[Synchformer](https://github.com/v-iashin/Synchformer)
+
+The majority of WavFlow is licensed under [ CC-BY-NC 4.0](https://github.com/facebookresearch/WavFlow/blob/main/LICENSE). Portions of the project are vendored from third-party open source projects under their original license terms (MIT, Apache 2.0, CC BY-NC 4.0, and Stability AI Community License). See
+
+[for the full per-component breakdown and license texts.](https://github.com/facebookresearch/WavFlow/blob/main/NOTICE.txt)
+
+`NOTICE.txt`
