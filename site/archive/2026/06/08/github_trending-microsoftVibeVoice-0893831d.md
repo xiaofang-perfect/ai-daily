@@ -1,0 +1,128 @@
+---
+title: "microsoft/VibeVoice"
+source: GitHub Trending
+url: https://github.com/microsoft/VibeVoice
+date: 2026-06-08
+published_at: 2026-06-08T06:39:45.390604+00:00
+tag: 工具开源
+item_id: 0893831daa409617
+---
+![VibeVoice Logo](https://github.com/microsoft/VibeVoice/raw/main/Figures/VibeVoice_logo.png) 
+
+**2026-03-06: 🚀 VibeVoice ASR is now part of a  Transformers release! You can now use our speech recognition model directly through the Hugging Face Transformers library for seamless integration into your projects.**
+
+**2026-01-21:** 📣 We open-sourced [ VibeVoice-ASR](https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-asr.md), a unified speech-to-text model designed to handle 60-minute long-form audio in a single pass, generating structured transcriptions containing Who (Speaker), When (Timestamps), and What (Content), with support for User-Customized Context. Try it in 
+
+[Playground](https://aka.ms/vibevoice-asr).
+
+- ⭐️ VibeVoice-ASR is natively multilingual, supporting over 50 languages — check the [supported languages](https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-asr.md#language-distribution)for details.
+- 🔥 The VibeVoice-ASR [finetuning code](https://github.com/microsoft/VibeVoice/blob/main/finetuning-asr/README.md)is now available!
+- ⚡️ **vLLM inference**is now supported for faster inference; see[vllm-asr](https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-vllm-asr.md)for more details.
+- 📑 [VibeVoice-ASR Technique Report](https://arxiv.org/pdf/2601.18184)is available.
+
+2025-12-16: 📣 We added experimental speakers to [ VibeVoice‑Realtime‑0.5B](https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-realtime-0.5b.md) for exploration, including multilingual voices in nine languages (DE, FR, IT, JP, KR, NL, PL, PT, ES) and 11 distinct English style voices. 
+
+[Try it](https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-realtime-0.5b.md#optional-more-experimental-voices). More speaker types will be added over time.
+
+2025-12-03: 📣 We open-sourced [ VibeVoice‑Realtime‑0.5B](https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-realtime-0.5b.md), a real‑time text‑to‑speech model that supports streaming text input and robust long-form speech generation. Try it on 
+
+[Colab](https://colab.research.google.com/github/microsoft/VibeVoice/blob/main/demo/vibevoice_realtime_colab.ipynb).
+
+2025-09-05: VibeVoice is an open-source research framework intended to advance collaboration in the speech synthesis community. After release, we discovered instances where the tool was used in ways inconsistent with the stated intent. Since responsible use of AI is one of Microsoft’s guiding principles, we have removed the VibeVoice-TTS code from this repository.
+
+2025-08-25: 📣 We open-sourced [ VibeVoice-TTS](https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-tts.md), a long-form multi-speaker text-to-speech model that can synthesize speech up to 90 minutes long with up to 4 distinct speakers. — accepted as an 
+
+[Oral](https://openreview.net/forum?id=FihSkzyxdv)at ICLR 2026! 🔥
+
+VibeVoice is a **family of open-source frontier voice AI models** that includes both Text-to-Speech (TTS) and Automatic Speech Recognition (ASR) models.
+
+A core innovation of VibeVoice is its use of continuous speech tokenizers (Acoustic and Semantic) operating at an ultra-low frame rate of **7.5 Hz**. These tokenizers efficiently preserve audio fidelity while significantly boosting computational efficiency for processing long sequences. VibeVoice employs a [next-token diffusion](https://arxiv.org/abs/2412.08635) framework, leveraging a Large Language Model (LLM) to understand textual context and dialogue flow, and a diffusion head to generate high-fidelity acoustic details.
+
+For more information, demos, and examples, please visit our [Project Page](https://microsoft.github.io/VibeVoice).
+
+| Model | Weight | Quick Try | 
+|---|---|---|
+| VibeVoice-ASR-7B | [HF Link](https://huggingface.co/microsoft/VibeVoice-ASR) | [Playground](https://aka.ms/vibevoice-asr) | 
+| VibeVoice-TTS-1.5B | [HF Link](https://huggingface.co/microsoft/VibeVoice-1.5B) | Disabled | 
+| VibeVoice-Realtime-0.5B | [HF Link](https://huggingface.co/microsoft/VibeVoice-Realtime-0.5B) | [Colab](https://colab.research.google.com/github/microsoft/VibeVoice/blob/main/demo/vibevoice_realtime_colab.ipynb) | 
+
+### 1. 📖 [VibeVoice-ASR](https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-asr.md) - Long-form Speech Recognition
+
+**VibeVoice-ASR** is a unified speech-to-text model designed to handle **60-minute long-form audio** in a single pass, generating structured transcriptions containing **Who (Speaker), When (Timestamps), and What (Content)**, with support for **Customized Hotwords**.
+
+- 
+**🕒 60-minute Single-Pass Processing**: Unlike conventional ASR models that slice audio into short chunks (often losing global context), VibeVoice ASR accepts up to**60 minutes**of continuous audio input within 64K token length. This ensures consistent speaker tracking and semantic coherence across the entire hour.
+- 
+**👤 Customized Hotwords**: Users can provide customized hotwords (e.g., specific names, technical terms, or background info) to guide the recognition process, significantly improving accuracy on domain-specific content.
+- 
+**📝 Rich Transcription (Who, When, What)**: The model jointly performs ASR, diarization, and timestamping, producing a structured output that indicates*who*said*what*and*when*.
+
+[📖 Documentation](https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-asr.md) | [🤗 Hugging Face](https://huggingface.co/microsoft/VibeVoice-ASR) | [🎮 Playground](https://aka.ms/vibevoice-asr) | [🛠️ Finetuning](https://github.com/microsoft/VibeVoice/blob/main/finetuning-asr/README.md) |  [📊 Paper](https://github.com/microsoft/VibeVoice/blob/main/docs/VibeVoice-ASR-Report.pdf)
+
+  ![DER](https://github.com/microsoft/VibeVoice/raw/main/Figures/DER.jpg)
+
+
+  ![cpWER](https://github.com/microsoft/VibeVoice/raw/main/Figures/cpWER.jpg)
+
+
+  
+![tcpWER](https://github.com/microsoft/VibeVoice/raw/main/Figures/tcpWER.jpg)
+
+
+## small.mp4
+
+### 2. 🎙️ [VibeVoice-TTS](https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-tts.md) - Long-form Multi-speaker TTS
+
+**Best for**: Long-form conversational audio, podcasts, multi-speaker dialogues
+
+- 
+**⏱️ 90-minute Long-form Generation**: Synthesizes conversational/single-speaker speech up to**90 minutes**in a single pass, maintaining speaker consistency and semantic coherence throughout.
+- 
+**👥 Multi-speaker Support**: Supports up to**4 distinct speakers**in a single conversation, with natural turn-taking and speaker consistency across long dialogues.
+- 
+**🎭 Expressive Speech**: Generates expressive, natural-sounding speech that captures conversational dynamics and emotional nuances.
+- 
+**🌐 Multi-lingual Support**: Supports English, Chinese and other languages.
+
+[📖 Documentation](https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-tts.md) | [🤗 Hugging Face](https://huggingface.co/microsoft/VibeVoice-1.5B)  |  [📊 Paper](https://arxiv.org/pdf/2508.19205)
+
+![VibeVoice Results](https://github.com/microsoft/VibeVoice/raw/main/Figures/VibeVoice-TTS-results.jpg)
+
+**English**
+
+## ES_._3.mp4
+
+**Chinese**
+
+## default.mp4
+
+**Cross-Lingual**
+
+## 1p_EN2CH.mp4
+
+**Spontaneous Singing**
+
+## 2p_see_u_again.mp4
+
+**Long Conversation with 4 people**
+
+## 4p_climate_45min.mp4
+
+### 3. ⚡ [VibeVoice-Streaming](https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-realtime-0.5b.md) - Real-time Streaming TTS
+
+VibeVoice-Realtime is a **lightweight real‑time** text-to-speech model supporting **streaming text input** and **robust long-form speech generation**.
+
+- Parameter size: 0.5B (deployment-friendly)
+- Real-time TTS (~300 milliseconds first audible latency)
+- Streaming text input
+- Robust long-form speech generation (~10 minutes)
+
+[📖 Documentation](https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-realtime-0.5b.md) | [🤗 Hugging Face](https://huggingface.co/microsoft/VibeVoice-Realtime-0.5B) | [🚀 Colab](https://colab.research.google.com/github/microsoft/VibeVoice/blob/main/demo/vibevoice_realtime_colab.ipynb)
+
+## VibeVoice_Realtime.mp4
+
+Please see [CONTRIBUTING.md](https://github.com/microsoft/VibeVoice/blob/main/CONTRIBUTING.md) for detailed contribution guidelines.
+
+While efforts have been made to optimize it through various techniques, it may still produce outputs that are unexpected, biased, or inaccurate. VibeVoice inherits any biases, errors, or omissions produced by its base model (specifically, Qwen2.5 1.5b in this release). Potential for Deepfakes and Disinformation: High-quality synthetic speech can be misused to create convincing fake audio content for impersonation, fraud, or spreading disinformation. Users must ensure transcripts are reliable, check content accuracy, and avoid using generated content in misleading ways. Users are expected to use the generated content and to deploy the models in a lawful manner, in full compliance with all applicable laws and regulations in the relevant jurisdictions. It is best practice to disclose the use of AI when sharing AI-generated content.
+
+We do not recommend using VibeVoice in commercial or real-world applications without further testing and development. This model is intended for research and development purposes only. Please use responsibly.
