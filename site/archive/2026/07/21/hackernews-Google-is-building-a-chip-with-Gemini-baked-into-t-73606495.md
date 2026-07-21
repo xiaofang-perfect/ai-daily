@@ -1,0 +1,54 @@
+---
+title: "Google is building a chip with Gemini baked into the silicon"
+source: Hacker News
+url: https://thenextweb.com/news/google-frozen-chip-gemini-silicon
+date: 2026-07-21
+published_at: 2026-07-20T20:08:47+00:00
+tag: 行业动态
+item_id: 7360649529294413
+---
+![Google is building a chip with Gemini baked into the silicon](https://media.thenextweb.com/2026/07/google-ai-search-unsafe-schools-common-sense-media.avif) 
+
+                                                                            [Image by: Solen Feyissa](https://thenextweb.com)
+
+Most AI chips are general-purpose. You load a model onto them, and they run it. Google is reportedly trying something stranger: a chip that is the model, with Gemini’s blueprint etched into the hardware itself.
+
+The project, informally called “Frozen v2,” was [reported by The Information](https://www.theinformation.com/articles/google-plans-new-frozen-chip-run-ai-models-efficiently) and picked up by Reuters and Bloomberg Law. Alphabet shares rose as much as 3.7% on the news. Google has not confirmed the project, and the chip is years away. But the idea behind it is a serious bet on where AI infrastructure goes next.
+
+## What ‘frozen’ means
+
+Today’s chips keep the model in memory and shuttle its data back and forth. That flexibility costs power and time.
+
+Frozen v2 would bake Gemini’s neural-network architecture straight into the circuitry. The hardware locks to the shape of Google’s current AI design. Engineers can still refresh the model by loading new weights, but the underlying structure stays fixed, or “frozen.” How much of the model gets hardwired is reportedly still being decided.
+
+The payoff is efficiency. The Information reports the chip could be 6 to 10 times more efficient than Google’s latest custom AI chips, measured by tokens served per unit of power. It would be a new line of silicon, separate from Google’s TPUs rather than a replacement. Deployment is targeted for as early as 2028.
+
+## Why it matters
+
+The timing is not random. The Information says Frozen v2 is partly a response to an AI capacity crunch inside Google. The squeeze is severe enough that Google Cloud has turned away some outside customers, and it has stirred internal tensions.
+
+Efficiency is the whole game right now. Running AI models is fabulously expensive, and every watt saved at data-centre scale is money. A chip tuned for one model can drop a lot of the overhead a general chip carries.
+
+It would also be fast. Because the design is fixed, the chip can answer with very little delay. As one observer noted, that suits real-time uses such as voice assistants, where lag is the enemy.
+
+There is a strategic angle too. Google already designs its own [TPUs](https://thenextweb.com/news/google-nvidia-playbook-tpu-circular-financing-anthropic) to lower its reliance on Nvidia. A Gemini-specific chip would push that self-reliance further, deepening an effort that has also seen Google [spread its chip orders](https://thenextweb.com/news/google-nvidia-intel-tsmc-backup-chips) across suppliers.
+
+## Google is not alone
+
+The approach is not unique to Google. A startup called Taalas is already selling the idea, printing a model’s weights and architecture directly onto a chip it calls Hardcore.
+
+The claimed numbers are eye-catching. Taalas says its part serves up to 17,000 tokens a second, against roughly 150 per user on a top Nvidia GPU. It says it needs no expensive high-bandwidth memory, which would ease the [memory crunch](https://thenextweb.com/news/ai-memory-crunch-boom-bust-2028) squeezing the industry.
+
+That is the wider bet. If a model can live in silicon, you trade flexibility for speed, cost and power. For a company serving one model to billions of people, that trade can make sense. It is the same instinct behind efforts to [shrink models onto phones](https://thenextweb.com/news/apple-prismml-on-device-ai-compression-iphone).
+
+## The catch
+
+The obvious risk is rigidity. AI moves fast, and a chip built around today’s Gemini could look dated by 2028. Google’s design tries to soften that by keeping the weights updatable, but the architecture is still set in advance.
+
+Then there is the small matter of confirmation. Google has not acknowledged the project. A spokesperson said only that its teams experiment with high-efficiency ideas, and that not every lab project reaches production.
+
+So treat Frozen v2 as a signal, not a shipping product. The signal is clear enough. The [race for custom AI silicon](https://thenextweb.com/news/apple-ai-chip-acquisitions-servers) is moving from running any model to fusing one model with the metal. If Google pulls it off, its rivals will have to answer.
+
+## Get the TNW newsletter
+
+Get the most important tech news in your inbox each week.
