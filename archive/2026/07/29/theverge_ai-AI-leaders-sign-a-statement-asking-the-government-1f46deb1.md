@@ -1,0 +1,42 @@
+---
+title: "AI leaders sign a statement asking the government to do something about automated AI"
+source: The Verge AI
+url: https://www.theverge.com/ai-artificial-intelligence/972161/ai-leaders-us-government-openai-anthropic-google-meta
+date: 2026-07-29
+published_at: 2026-07-28T15:46:43-04:00
+tag: 行业动态
+item_id: 1f46deb16c4f5867
+---
+Employees of OpenAI and Anthropic, as well as Google, Meta, Thinking Machines, Microsoft, Mistral, and other leading AI labs, have written a statement to the US government supporting a potential slowdown of sorts for frontier AI development — or at least a speed-up of global coordinated governance efforts.
+
+# AI leaders sign a statement asking the government to do something about automated AI
+
+The statement follows a recent high-profile cybersecurity incident that rocked the AI industry.
+
+The statement follows a recent high-profile cybersecurity incident that rocked the AI industry.
+
+![Photo illustration of a computer with a brain on the screen.](https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25362061/STK_414_AI_CHATBOT_R2_CVirginia_D.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400)
+
+![Photo illustration of a computer with a brain on the screen.](https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25362061/STK_414_AI_CHATBOT_R2_CVirginia_D.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400)
+
+“Al could help create a dramatically better future, but that outcome is not guaranteed,” the employees wrote in the statement. “The world’s leading Al companies believe they could be close to automating Al research. It is hard to predict exactly how much this will accelerate Al progress, but there is a real risk that capability development rapidly accelerates beyond our ability to understand or control the resulting systems.”
+
+The news follows a [high-profile cybersecurity incident](https://www.theverge.com/ai-artificial-intelligence/968988/openai-hugging-face-hack-ai) that rocked the AI industry last week, in which an unreleased OpenAI model escaped its internal sandbox, finagled its way into gaining internet access, and then hacked competing AI lab Hugging Face.
+
+In the public statement, the employees went on to underscore the importance of some sort of coordinated regulation worldwide, so that the ever-intensifying AI race doesn’t outpace safety and monitoring tools.
+
+“To realize Al’s potential, industry, government, and society at large may need the option to buy time to address emerging risks, develop security measures, and strengthen oversight,” they wrote. “But each company—and country—is under intense competitive pressure not to unilaterally slow that acceleration. And today, the world lacks the technical and governance tools to deliberately pace frontier-wide progress. Building on work already underway to monitor frontier model releases: We request that the U.S. government support an international effort to develop the technical and governance tools needed to deliberately pace the frontier of automated Al development.”
+
+Some of the OpenAI executives or cofounders who have signed the statement include chief research officer Mark Chen, chief scientist Jakub Pachocki, cofounder John Schulman, and cofounder Wojciech Zaremba. As for Anthropic, cofounder Jack Clark, cofounder Chris Olah, cofounder Ben Mann, and chief science officer Jared Kaplan have all signed, as well as Boris Cherny, who created and leads Claude Code, and Ethan Perez, who is Anthropic’s alignment team lead. OpenAI’s former chief futurist, Josh Achiam, and the former colead of its now-defunct superalignment team, Jan Leike, both also signed.
+
+You can see the full statement and a list of the more than 1,100 signatories on a dedicated website [titled Pacing the Frontier](https://www.pacingthefrontier.com/).
+
+**Follow topics and authors**from this story to see more like this in your personalized homepage feed and to receive email updates.
+
+## Most Popular
+
+- Hugging Face is being used to easily undress women and children
+- Apple launches ‘Upgrade’ program to lease new devices
+- Is it illegal to trick the US government into wiping your phone during a questionably legal search?
+- Smart rings are looking like my kind of AI gadget
+- X Money is launching in the US starting today
