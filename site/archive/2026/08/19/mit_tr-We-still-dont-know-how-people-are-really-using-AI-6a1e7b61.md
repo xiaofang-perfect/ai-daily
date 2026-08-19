@@ -1,0 +1,92 @@
+---
+title: "We still don’t know how people are really using AI"
+source: MIT Technology Review
+url: https://www.technologyreview.com/2026/08/18/1142226/how-people-use-ai/
+date: 2026-08-19
+published_at: 2026-08-18T10:06:43+00:00
+tag: 论文研究
+item_id: 6a1e7b61b9d7ea7b
+---
+# We still don’t know how people are really using AI
+
+But a new study shows that work use cases make up less of the picture than AI companies claim.
+
+![a woman in business attire and carrying a brief case walking into the distance with her arm around a phantom figure. They are surrounded by chat prompts.](https://wp.technologyreview.com/wp-content/uploads/2026/08/arm-around2.jpg)
+
+AI companies like Anthropic and OpenAI regularly publish reports on how people are using products like Claude and ChatGPT, but they only release the data they want us to see, AI researchers say.
+
+“There is no independent source to corroborate it,” says Anka Reuel, a computer science PhD candidate at the Stanford Trustworthy AI Research (STAIR) Lab.
+
+Reuel is co-lead of a new research project, called the AI Observatory, that aims to fill the gap. It’s a [public platform](https://www.ai-observatory.org/) that aggregated and analyzed real AI conversations with popular models like Claude and Gemini that were collected with users’ consent through seven existing datasets. The intent is to provide independent sources of information that can help researchers and policymakers assess how people are using generative AI. Highly consequential decisions about AI’s benefits and risks are currently being made on the basis of very limited data, says Reuel. 
+
+The AI Observatory found that AI use differs significantly across models and has changed over time. Its [research](https://www.dataprovenance.org/ai_observatory.pdf) shows many more sensitive behaviors than are captured in reports from major AI companies, which they say focus more on work than on personal use. 
+
+The Anthropic Economic Index is one of the best-known and most widely cited sources of AI usage data, but it has blind spots. As its name suggests, it focuses on work- and productivity-related uses of Claude AI—filtering out conversations that are unrelated to these uses.
+
+When the AI Observatory researchers applied Anthropic’s methods to their dataset, they found that nearly half the conversations—48%—would have been filtered out. Those non-work-related conversations were more likely to involve health and relationships (44.2% versus 31.2% in Anthropic’s analysis), adult or illicit topics (7.9% versus 2.1%), harassment and hate (27.5% versus 5.66%), and sexual content (16.7% versus 2.4%). (OpenAI’s 2025 report on ChatGPT, similarly, [found](https://openai.com/index/how-people-are-using-chatgpt/) that only 30% of consumer use was related to work.)
+
+Anthropic has released separate blog posts on how people use Claude for [support or companionship](https://www.anthropic.com/news/how-people-use-claude-for-support-advice-and-companionship)**,** and even to [generate CSAM](https://www-cdn.anthropic.com/0fad284f89c8f9b95ee0f59bdde78928b9a7c425.pdf), but “having [the AI Observatory’s] bird’s-eye-view analysis” rather than leaving that information “sectioned off into a separate report” helps researchers understand the different uses more consistently, says David Widder, an assistant professor at the University of Texas at Austin, who researches how people interact with AI systems and is not involved with the AI Observatory. 
+
+The datasets the AI Observatory looked at include conversations that took place between 2023 and 2025, and it found differences both in how people were using AI and how various AI platforms responded.
+
+Conversations within WildChat, one of the largest and most detailed datasets included in the AI Observatory’s study, got longer and more elaborate over time, as indicated by growing numbers of prompt tokens, response tokens, and conversation turns.
+
+There was also significantly more small talk over time. That suggests that AI companionship was increasing; meanwhile, the AI assistants’ self-disclosure (i.e., admitting to being a chatbot) decreased.
+
+Additionally, exchanges that the researchers labeled as sensitive—meaning ones with potentially harmful or restricted content, including sexual harassment and hate speech—became less frequent. That might suggest that platforms were generally deploying more effective safeguards.
+
+The AI Observatory also found that topics, interaction styles, conversation structures, and the likelihood and type of sensitive use cases differed from one model to another.
+
+For example, the researchers found that people used Grok and Gemini more frequently for information retrieval. Grok, in particular, was especially popular for information on news and politics, but it was also where misinformation tended to concentrate. (This is consistent with [other research](https://pmc.ncbi.nlm.nih.gov/articles/PMC13057141/#R11) that has shown how readily misinformation proliferates on Grok. xAI did not respond to a request for comment.) 
+
+Meanwhile, people were more likely to turn to Anthropic for coding, Gemini for social and roleplay uses, and ChatGPT for homework assistance.
+
+There were even differences between different versions of the same model. Researchers found that people had shorter conversations with ChatGPT when it was powered by GPT-3.5, and longer and more iterative ones with GPT-4o—which makes sense given that that version became known for [leading to emotional addiction](https://www.technologyreview.com/2025/08/15/1121900/gpt4o-grief-ai-companion/). 
+
+Companies’ reports, however, didn’t tend to capture these nuances between or even within their own models. “No single company report tells the whole story,” says Shayne Longpre, a recent PhD graduate from the MIT Media Lab who co-led the research with Reuel.
+
+To create the AI Observatory, Reuel and researchers from MIT, Stanford, the [Data Provenance Initiative](https://www.technologyreview.com/2024/12/18/1108796/this-is-where-the-data-to-build-ai-comes-from/), and other institutions aggregated 85,633 conversational turns (that is, the user prompt and corresponding AI response) across 24,521 conversations from seven real-world datasets collected in previous research. These conversations came from 5,000 users interacting with 52 different models, including ChatGPT, Gemini, Claude, and Grok, between 2023 and 2025. 
+
+But these conversations are a drop in the proverbial bucket compared with the data that the big labs themselves have access to. The latest [Anthropic Economic AI Index](https://www.anthropic.com/research/anthropic-economic-index-january-2026-report), for example, is based on analysis of 1 million Claude conversations; OpenAI’s report on [how people are using ChatGPT](https://openai.com/index/how-people-are-using-chatgpt/) analyzed 1.5 million conversations.  
+
+An Anthropic representative said the company’s published research reflects its research teams’ specific questions and interests and that it’s important to support external independent research. OpenAI did not respond to requests for comment.
+
+The fact that the AI Observatory’s dataset draws from voluntarily provided sources means it’s probably underrepresenting sensitive uses, which people may be less likely to share. Thus, the researchers caution that its findings are not indicative of all AI use.
+
+The project’s work, though, broadens access for the research community. AI companies don’t typically share their chat data for analysis, which means their reports tend to focus on the findings that paint them in the best light, independent researchers like Reuel and Widder say.
+
+“When we want to ask, for example: is Anthropic’s general-purpose AI system … used mostly for good or mostly for bad … we don’t have a way of answering that question because that information is proprietary,” explains Widder.
+
+The AI Observatory’s data will be available to researchers for analysis, and the team hopes to expand its datasets over time. Ideally, Reuel says, the AI companies would share their data with independent researchers—in ways that protect user privacy, of course. But as it currently stands, she says, anyone making decisions based on AI usage data risks “completely operating in the wild and making these really consequential decisions without knowing what’s actually happening beyond those company narratives.”
+
+### Deep Dive
+
+### Artificial intelligence
+
+
+### A startup claims it broke through a bottleneck that’s holding back LLMs
+
+Subquadratic has now shared more details about its new model. But some are still skeptical.
+
+
+### A fundamental flaw leaves LLMs strikingly vulnerable to attack
+
+It makes it easy to trick them into doing things they shouldn’t, such as telling you how to sabotage an aircraft’s navigation system.
+
+
+### Anthropic found a hidden space where Claude puzzles over concepts
+
+A new technique has let the company probe deeper than ever into the weird workings of an LLM.
+
+
+### Claude Science is Anthropic’s newest flagship product
+
+The company is doubling down on AI for science.
+
+### Stay connected
+
+## Get the latest updates from
+
+MIT Technology Review
+
+Discover special offers, top stories, upcoming events, and more.
