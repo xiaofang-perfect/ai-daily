@@ -1,0 +1,34 @@
+---
+title: "Xiaomi open-sources MiMo-V2.6 Pro and Flash models"
+source: TLDR AI · 2026-09-22
+url: https://www.testingcatalog.com/xiaomi-open-sources-mimo-v2-6-pro-and-flash-models/?utm_source=tldrai
+date: 2026-09-23
+published_at: 2026-09-22T12:00:00+00:00
+tag: 工具开源
+item_id: f48650f3b961a819
+---
+Xiaomi has released and open-sourced the MiMo-V2.6 series, introducing two natively omnimodal models for coding, visual tasks and computer use. MiMo-V2.6-Pro is its most capable model, while MiMo-V2.6-Flash targets a lower-cost balance of intelligence and efficiency. Pro-UltraSpeed offers up to 20 times faster output at the same quality for latency-sensitive work.
+
+Introducing Xiaomi MiMo-V2.6 — Pro & Flash.
+
+Frontier intelligence, all the modalities, built in public.
+
+🔹 Two omnimodal models, advancing through scaled reinforcement learning
+
+🔹 Pro performs on par with Claude Opus 5 and GPT-5.6 Sol across most agent benchmarks
+
+🔹 Pro scores… [pic.twitter.com/oqfYPC00uK](https://t.co/oqfYPC00uK?ref=testingcatalog.com)
+
+[September 21, 2026](https://x.com/XiaomiMiMo/status/2102138559952290106?ref_src=twsrc%5Etfw&ref=testingcatalog.com)
+
+MiMo-V2.6-Pro scored 46.32 on the Artificial Analysis Intelligence Index v4.3. Xiaomi says this puts it ahead of Kimi K3 and Qwen3.8 Max as the highest-scoring open-source model in the comparison. API prices stay at V2.5 levels, with Flash priced at $0.14 per million uncached input tokens and $0.28 for output, and Pro at $0.435 and $0.87. UltraSpeed costs ten times more.
+
+![MiMo](https://storage.ghost.io/c/2a/1b/2a1b1782-8506-4d7d-bf53-ad3fb52e2a0f/content/images/2026/09/aaindex-trim.png)
+
+The release centers on Xiaomi’s effort to scale reinforcement learning on verifiable, complex tasks. In under six days, Flash and Pro each completed 30 RL steps across roughly 750,000 trajectories, costing about $850,000 and $2.62 million. DeepSWE v1.1 scores rose from 48.8 to 65.68 and from 58.4 to 72.57. Training spanned coding, general-agent, visual and cybersecurity tasks, using 1,568 samples per update and context lengths up to one million tokens. Xiaomi froze the router to limit drift and used adversarial evaluation, anomaly detection and verifier cross-checks against reward hacking.
+
+![MiMo](https://storage.ghost.io/c/2a/1b/2a1b1782-8506-4d7d-bf53-ad3fb52e2a0f/content/images/2026/09/pareto.png)
+
+MiMo-V2.6 moves beyond conventional software work into what Xiaomi calls “Vibe World.” From an image, video or text prompt, it can coordinate agents to construct and visually test interactive 3D scenes. It can create Blender assets, control a Franka Panda robotic arm from camera feeds, produce frontends and presentations, assemble videos, and compose music as scores and MIDI. Research demonstrations included screening materials for capturing PFAS chemicals and helping formalize a Lean 4 theorem in more than 6,000 lines of kernel-verified code.
+
+Pro and Flash are available now in AI Studio, MiMo Code, MiMo Desktop, Xiaomi’s MiMo API Platform and OpenRouter. MiMo Desktop is leaving early access with both models included, while UltraSpeed is offered for real-time workflows. Xiaomi is publishing the technical report, training environments and RL code alongside the models, framing the launch as a reproducible test of scaled RL and model self-improvement.
