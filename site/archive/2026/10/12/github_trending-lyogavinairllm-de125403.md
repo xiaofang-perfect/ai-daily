@@ -1,0 +1,339 @@
+---
+title: "lyogavin/airllm"
+source: GitHub Trending
+url: https://github.com/lyogavin/airllm
+date: 2026-10-12
+published_at: 2026-10-12T08:29:46.323351+00:00
+tag: 工具开源
+item_id: de125403a3ed5bd5
+---
+![airllm\_logo](https://github.com/lyogavin/airllm/raw/main/assets/airllm_logo_sm.png?v=3&raw=true)
+
+
+[**Quickstart**](https://github.com#quickstart) |
+[**Configurations**](https://github.com#configurations) |
+[**MacOS**](https://github.com#macos) |
+[**Example notebooks**](https://github.com#example-python-notebook) |
+**FAQ**
+
+**AirLLM** dramatically reduces inference memory usage, letting 70B large language models run on a single 4GB GPU card — without quantization, distillation, or pruning. You can even run **Kimi K3 (2.8T)** — the largest open-source model released to date — on **under 4GB**, **Qwen3.8-Flash-Next (125B)** on **6GB**, and **DeepSeek-V3 (671B)** on **\~12GB**. We now also support training huge models on small VRAM: **Qwen3.8-Flash-Next (125B)** under **6GB**.
+
+
+
+
+
+
+
+
+\[2026/09\] **Training** support: stream frozen weights one layer at a time and keep adapters on the GPU. **Qwen3.8-Flash-Next (125B)** trains under **6GB** (RTX 3060 Ti); **Qwen3.8-27B** trains in **\~2GB** at seq 512. See [Training](https://github.com#training).
+
+\[2026/08\] **Qwen3.8-Flash-Next** support: Qwen's 125B MoE flagship (`Qwen4ExpForConditionalGeneration`) with a \~51B n-gram embedding runs in **5.95GB** of VRAM, measured end to end on one RTX 4090. The n-gram table is file-mapped on the host (a 64GB machine is enough); decoder layers stream. Needs a `transformers` build with in-tree `qwen4_exp` (`pip install git+https://github.com/huggingface/transformers.git` today) and \~360GB of checkpoint disk (`delete_original=True` reclaims the originals after the split).
+
+\[2026/08\] **Qwen3.8-27B** support: Qwen's new dense VL (Gated DeltaNet + Gated Attention, native vision) runs in **3.33GB** of VRAM, measured end to end on one RTX 3090. Needs `transformers` 5.8+.
+
+\[2026/07\] **Kimi K3 (2.8T)** support: the largest open-source model runs on a single card in **3.72GB** of VRAM, measured end to end on one RTX 6000 Ada. Per-expert streaming loads only the experts a token actually routes to. K3 brings three requirements of its own: `pip install compressed-tensors flash-attn` (its model code mandates flash attention regardless of what you request), a CUDA 12 build of torch, since no prebuilt flash-attn wheel exists for CUDA 13 yet, and `transformers` 4.56.x, as its remote code does not load on 5.x.
+
+\[2026/06\] **v3.0**: FP8 model support + the latest models. Run **DeepSeek-V3 (671B) on \~12GB** and **Qwen3-235B on \~3GB**, plus Qwen3, Llama 3.x/4, DeepSeek V2/V3, Phi-4, Gemma and more — all through a single `AutoModel`.
+
+\[2024/08/20\] v2.11.0: Support Qwen2.5
+
+\[2024/08/18\] v2.10.1 Support CPU inference. Support non sharded models. Thanks @NavodPeiris for the great work!
+
+\[2024/07/30\] Support Llama3.1 **405B** ([example notebook](https://colab.research.google.com/github/lyogavin/airllm/blob/main/air_llm/examples/run_llama3.1_405B.ipynb)). Support **8bit/4bit quantization**.
+
+\[2024/04/20\] AirLLM supports Llama3 natively already. Run Llama3 70B on 4GB single GPU.
+
+\[2023/12/25\] v2.8.2: Support MacOS running 70B large language models.
+
+\[2023/12/20\] v2.7: Support AirLLMMixtral.
+
+\[2023/12/20\] v2.6: Added AutoModel, automatically detect model type, no need to provide model class to initialize model.
+
+\[2023/12/18\] v2.5: added prefetching to overlap the model loading and compute. 10% speed improvement.
+
+\[2023/12/03\] added support of **ChatGLM**, **QWen**, **Baichuan**, **Mistral**, **InternLM**!
+
+\[2023/12/02\] added support for safetensors. Now support all top 10 models in open llm leaderboard.
+
+\[2023/12/01\] airllm 2.0. Support compressions: **3x run time speed up!**
+
+\[2023/11/20\] airllm Initial version!
+
+![Star History Chart](https://github.com/lyogavin/airllm/raw/main/assets/star-history.png) 
+
+First, install the airllm pip package.
+
+`pip install airllm`
+Then, initialize AirLLMLlama2, pass in the huggingface repo ID of the model being used, or the local path, and inference can be performed similar to a regular transformer model.
+
+(*You can also specify the path to save the splitted layered model through **layer\_shards\_saving\_path** when init AirLLMLlama2.*
+
+```
+from airllm import AutoModel
+MAX_LENGTH = 128
+# just pass a hugging face repo id — works with almost any popular model:
+model = AutoModel.from_pretrained("Qwen/Qwen3-32B")
+# go bigger with the exact same one line:
+#model = AutoModel.from_pretrained("Qwen/Qwen3.8-27B")          # 27B dense VL, 3.33GB
+#model = AutoModel.from_pretrained("Qwen/Qwen3.8-Flash-Next")    # 125B MoE + 51B PLE, 5.95GB
+#model = AutoModel.from_pretrained("Qwen/Qwen3-235B-A22B")     # 235B, runs in ~3GB
+#model = AutoModel.from_pretrained("deepseek-ai/DeepSeek-V3")  # 671B, runs in ~12GB
+# or use a model's local path...
+#model = AutoModel.from_pretrained("/home/ubuntu/.cache/huggingface/hub/models--Qwen--Qwen3-32B/snapshots/...")
+input_text = [
+        'What is the capital of United States?',
+        #'I like',
+    ]
+input_tokens = model.tokenizer(input_text,
+    return_tensors="pt", 
+    return_attention_mask=False, 
+    truncation=True, 
+    max_length=MAX_LENGTH, 
+    padding=False)
+           
+generation_output = model.generate(
+    input_tokens['input_ids'].cuda(), 
+    max_new_tokens=20,
+    use_cache=True,
+    return_dict_in_generate=True)
+output = model.tokenizer.decode(generation_output.sequences[0])
+print(output)
+```
+Note: During inference, the original model will first be decomposed and saved layer-wise. Please ensure there is sufficient disk space in the huggingface cache directory.
+
+We just added model compression based on block-wise quantization-based model compression. Which can further **speed up the inference speed** for up to **3x** , with **almost ignorable accuracy loss!** (see more performance evaluation and why we use block-wise quantization in [this paper](https://arxiv.org/abs/2212.09720))
+
+![speed\_improvement](https://github.com/lyogavin/airllm/raw/main/assets/airllm2_time_improvement.png?v=2&raw=true)
+
+
+- Step 1. make sure you have [bitsandbytes](https://github.com/TimDettmers/bitsandbytes) installed by `pip install -U bitsandbytes` 
+- Step 2. make sure airllm verion later than 2.0.0: `pip install -U airllm`
+- Step 3. when initialize the model, passing the argument compression ('4bit' or '8bit'):
+
+```
+model = AutoModel.from_pretrained("garage-bAInd/Platypus2-70B-instruct",
+                     compression='4bit' # specify '8bit' for 8-bit block-wise quantization 
+                    )
+```
+Quantization normally needs to quantize both weights and activations to really speed things up. Which makes it harder to maintain accuracy and avoid the impact of outliers in all kinds of inputs.
+
+While in our case the bottleneck is mainly at the disk loading, we only need to make the model loading size smaller. So, we get to only quantize the weights' part, which is easier to ensure the accuracy.
+
+When initialize the model, we support the following configurations:
+
+- **compression**: supported options: 4bit, 8bit for 4-bit or 8-bit block-wise quantization, or by default None for no compression
+- **profiling\_mode**: supported options: True to output time consumptions or by default False
+- **layer\_shards\_saving\_path**: optionally another path to save the splitted model
+- **hf\_token**: huggingface token can be provided here if downloading gated models like: *meta-llama/Llama-2-7b-hf*
+- **prefetching**: prefetching to overlap the model loading and compute. By default, turned on. For now, only AirLLMLlama2 supports this.
+- **delete\_original**: if you don't have too much disk space, you can set delete\_original to true to delete the original downloaded hugging face model, only keep the transformed one to save half of the disk space.
+
+Just install airllm and run the code the same as on linux. See more in [Quick Start](https://github.com#quickstart).
+
+- make sure you installed [mlx](https://github.com/ml-explore/mlx?tab=readme-ov-file#installation) and torch
+- you probably need to install python native see more [here](https://stackoverflow.com/a/65432861/21230266)
+- only [Apple silicon](https://support.apple.com/en-us/HT211814) is supported
+
+Example \[python notebook\] ([https://github.com/lyogavin/airllm/blob/main/air\_llm/examples/run\_on\_macos.ipynb](https://github.com/lyogavin/airllm/blob/main/air_llm/examples/run_on_macos.ipynb))
+
+Example colabs here:
+
+## Details
+
+- ChatGLM:
+
+```
+from airllm import AutoModel
+MAX_LENGTH = 128
+model = AutoModel.from_pretrained("THUDM/chatglm3-6b-base")
+input_text = ['What is the capital of China?',]
+input_tokens = model.tokenizer(input_text,
+    return_tensors="pt", 
+    return_attention_mask=False, 
+    truncation=True, 
+    max_length=MAX_LENGTH, 
+    padding=True)
+generation_output = model.generate(
+    input_tokens['input_ids'].cuda(), 
+    max_new_tokens=5,
+    use_cache= True,
+    return_dict_in_generate=True)
+model.tokenizer.decode(generation_output.sequences[0])
+```
+- QWen:
+
+```
+from airllm import AutoModel
+MAX_LENGTH = 128
+model = AutoModel.from_pretrained("Qwen/Qwen-7B")
+input_text = ['What is the capital of China?',]
+input_tokens = model.tokenizer(input_text,
+    return_tensors="pt", 
+    return_attention_mask=False, 
+    truncation=True, 
+    max_length=MAX_LENGTH)
+generation_output = model.generate(
+    input_tokens['input_ids'].cuda(), 
+    max_new_tokens=5,
+    use_cache=True,
+    return_dict_in_generate=True)
+model.tokenizer.decode(generation_output.sequences[0])
+```
+- Baichuan, InternLM, Mistral, etc:
+
+```
+from airllm import AutoModel
+MAX_LENGTH = 128
+model = AutoModel.from_pretrained("baichuan-inc/Baichuan2-7B-Base")
+#model = AutoModel.from_pretrained("internlm/internlm-20b")
+#model = AutoModel.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
+input_text = ['What is the capital of China?',]
+input_tokens = model.tokenizer(input_text,
+    return_tensors="pt", 
+    return_attention_mask=False, 
+    truncation=True, 
+    max_length=MAX_LENGTH)
+generation_output = model.generate(
+    input_tokens['input_ids'].cuda(), 
+    max_new_tokens=5,
+    use_cache=True,
+    return_dict_in_generate=True)
+model.tokenizer.decode(generation_output.sequences[0])
+```
+#### To request other model support: [here](https://docs.google.com/forms/d/e/1FAIpQLSe0Io9ANMT964Zi-OQOq1TJmnvP-G3_ZgQDhP7SatN0IEdbOg/viewform?usp=sf_link)
+
+AirLLM works out of the box with **virtually every popular open LLM** — just pass its Hugging Face ID to `AutoModel.from_pretrained(...)`. That covers all the major families:
+
+**Llama** (2 / 3 / 3.1 / 3.3 / 4) · **Qwen** (1 / 2 / 2.5 / 3 / 3.5 / 3.8, including MoE, Flash-Next, FP8, and native VL) · **DeepSeek** (V2 / V3 / R1) · **Mistral & Mixtral** · **Phi** · **Gemma** · **ChatGLM** · **Baichuan** · **InternLM** · **Yi** · **Kimi K3** — and most new models the day they're released.
+
+The trick: AirLLM only ever keeps **one layer on the GPU at a time**, so the VRAM you need depends on the model's layer size — not its total size. That's how a 671B model fits on a hobbyist card:
+
+| Model | Size | GPU VRAM | 
+|---|---|---|
+| Qwen3 / Mistral / Phi (≈8B) | 8B | **\~1–2 GB** | 
+| Qwen3-30B / Mixtral (MoE) | 30–47B | **\~1–3 GB** | 
+| Qwen3.8-27B (dense VL) | 27B | **3.33 GB** | 
+| Qwen3.8-Flash-Next (MoE + PLE) | \~180B | **5.95 GB** | 
+| Qwen3-235B (MoE) | 235B | **\~3 GB** | 
+| Llama 3.x 70B (full precision) | 70B | **\~4 GB** | 
+| Llama 3.1 405B | 405B | **\~8 GB** | 
+| DeepSeek-V3 | **671B** | **\~12 GB** | 
+
+Same one line of code for all of them — no special setup.
+
+AirLLM can fine-tune huge models on a small GPU. Frozen base weights stream from disk one decoder layer at a time; only the adapters stay resident. **Qwen3.8-Flash-Next (125B)** trains under **6GB**; **Qwen3.8-27B** trains in **\~2GB** at seq 512.
+
+This is not Hugging Face Trainer / bitsandbytes QLoRA. Flash-Next needs a `transformers` build with in-tree `qwen4_exp` (`pip install git+https://github.com/huggingface/transformers.git` today).
+
+One JSON object per line (`.jsonl`). The usual field is `text` — next-token prediction over the whole string:
+
+```
+{"text": "Your first training document. Can be a few sentences or a few paragraphs."}
+{"text": "Your second training document."}
+```
+Instruction pairs work too. Loss is applied on the completion only:
+
+```
+{"prompt": "What is AirLLM?", "completion": "A library that runs and trains huge models on small VRAM."}
+{"instruction": "Translate to English", "input": "bonjour", "output": "hello"}
+```
+A `.txt` file is also fine: one example per blank-line-separated block. A two-line starter file lives at `air_llm/examples/sft_example.jsonl`.
+
+From the repo root, point `--data` at your file:
+
+```
+python air_llm/examples/train_qwen38_flash_next_lora.py \
+  --data my_data.jsonl \
+  --seq-len 512 \
+  --epochs 1 \
+  --save-adapter qwen38-flash-next-lora.pt
+```
+For the 27B dense model:
+
+```
+python air_llm/examples/train_qwen38_lora.py \
+  --data my_data.jsonl \
+  --seq-len 512 \
+  --epochs 1 \
+  --save-adapter qwen38-27b-lora.pt
+```
+`--steps N` stops after N examples (useful for a smoke test). Omit `--data` and the script overfits a built-in snippet.
+
+```
+from airllm import AirLLMLoRAQwen4Exp
+trainer = AirLLMLoRAQwen4Exp(
+    "Qwen/Qwen3.8-Flash-Next",
+    max_seq_len=512,
+    lora_r=16,
+    delete_original=True,
+)
+tok = trainer.tokenizer
+if tok.pad_token_id is None:
+    tok.pad_token = tok.eos_token
+encoded = tok(
+    "Your training text here.",
+    return_tensors="pt",
+    truncation=True,
+    max_length=512,
+)
+loss = trainer.train_step(
+    encoded["input_ids"].cuda(),
+    attention_mask=encoded.get("attention_mask"),
+)
+print(loss)
+trainer.save_adapter("qwen38-flash-next-lora.pt")
+```
+`AirLLMLoRA` is the same API for `Qwen/Qwen3.8-27B`.
+
+A lot of the code are based on SimJeg's great work in the Kaggle exam competition. Big shoutout to SimJeg:
+
+[GitHub account @SimJeg](https://github.com/SimJeg),
+[the code on Kaggle](https://www.kaggle.com/code/simjeg/platypus2-70b-with-wikipedia-rag),
+[the associated discussion](https://www.kaggle.com/competitions/kaggle-llm-science-exam/discussion/446414).
+
+safetensors\_rust.SafetensorError: Error while deserializing header: MetadataIncompleteBuffer
+
+If you run into this error, most possible cause is you run out of disk space. The process of splitting model is very disk-consuming. See [this](https://huggingface.co/TheBloke/guanaco-65B-GPTQ/discussions/12). You may need to extend your disk space, clear huggingface [.cache](https://huggingface.co/docs/datasets/cache) and rerun.
+
+Most likely you are loading QWen or ChatGLM model with Llama2 class. Try the following:
+
+For QWen model:
+
+```
+from airllm import AutoModel #<----- instead of AirLLMLlama2
+AutoModel.from_pretrained(...)
+```
+For ChatGLM model:
+
+```
+from airllm import AutoModel #<----- instead of AirLLMLlama2
+AutoModel.from_pretrained(...)
+```
+Some models are gated models, needs huggingface api token. You can provide hf\_token:
+
+`model = AutoModel.from_pretrained("meta-llama/Llama-2-7b-hf", #hf_token='HF_API_TOKEN')`
+Some model's tokenizer doesn't have padding token, so you can set a padding token or simply turn the padding config off:
+
+```
+input_tokens = model.tokenizer(input_text,
+   return_tensors="pt", 
+   return_attention_mask=False, 
+   truncation=True, 
+   max_length=MAX_LENGTH, 
+   padding=False  #<-----------   turn off padding 
+)
+```
+If you find AirLLM useful in your research and wish to cite it, please use the following BibTex entry:
+
+```
+@software{airllm2023,
+  author = {Gavin Li},
+  title = {AirLLM: scaling large language models on low-end commodity computers},
+  url = {https://github.com/lyogavin/airllm/},
+  version = {0.0},
+  year = {2023},
+}
+```
+Welcomed contributions, ideas and discussions!
+
+If you find it useful, please ⭐ or buy me a coffee! 🙏
