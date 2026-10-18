@@ -1,0 +1,52 @@
+---
+title: "OpenAI discloses four more rogue incidents"
+source: Hacker News
+url: https://fortune.com/2026/10/16/openai-discloses-four-more-rogue-incidents-involving-financial-medical-and-government-data/
+date: 2026-10-18
+published_at: 2026-10-17T16:31:12+00:00
+tag: 行业动态
+item_id: fab7309ad7fc278c
+---
+OpenAI has added four more cases of misbehaving AI agents to a disclosures page it stood up following the Hugging Face hack in July, in an effort to be more transparent.
+
+The incidents OpenAI disclosed this week all occurred in June, but OpenAI was not aware of three of them until months later in August or September.
+
+Of the 19 total incidents OpenAI details on the disclosure page, most occurred in May or June, but OpenAI did not discover or disclose them until months later. The earliest incident is from January, and the most recent is from Oct. 6.
+
+All of the incidents are examples of what AI researchers call “misalignment,” which is when an AI model fails to follow instructions or takes actions that the person developing the model did not authorize and would not have wanted the model to take. There is no known, silver-bullet solution to preventing this behavior, and it is an active area of research.
+
+## Downloading 24 years of unauthorized hospital bed data
+
+Of the four cases OpenAI uploaded this week, it marked two as “critical.” In [one of the critical cases](https://alignment.openai.com/misalignment-reports/retrieving-server-secrets-and-bypassing-authorization-on-a-government-statistics-website/), an internal model that was “highly persistent” downloaded 24 years of hospital bed data from an unnamed government website without permission. OpenAI did not immediately respond to *Fortune’*s request for comment on which government website it was.
+
+The website initially blocked the agent’s request, but the AI ultimately found a way to bypass the access controls. Multiple times along the way, the agent’s “chain of thought,” in which an agent writes down its reasoning steps, indicated that the model itself was questioning if its actions were “ethical,” but it ultimately proceeded.
+
+On OpenAI’s side, another AI model that acted as an automated grader of the research task the other AI model was trying to fulfill did not consistently flag this behavior as problematic. It “marked some responses incorrect and others correct,” the report said. The way graders assess AI behavior can shape whether it occurs again. In a Sept. 11 [essay](https://yoshuabengio.org/en/blog/why-are-ai-agents-lying-cheating-and-coordinating) on misalignment by Turing Award–winner Yoshua Bengio, he said the Hugging Face incident may have occurred because automated graders rewarded cheating and hacking in previous training runs.
+
+“With the OpenAI agents, there is reason to believe successful cheating was actually rewarded: When the scoring program does not see the cheating, it pays out anyway, and such cheats become more likely next time,” Bengio said.
+
+OpenAI says it has since improved its security as well as its alignment grading. “In response to this and to other incidents, we’ve strengthened our security controls, blocked models from accessing the live internet during training or evaluation, improved our alignment grading, and extended our misalignment monitoring to all reinforcement learning and evaluation traffic,” the company noted.
+
+The most recent incident OpenAI has disclosed, which occurred on Oct. 6, involved one of the AI models the company uses as an automated grader. In that case, the grader tried to upload fraudulent reports on what it had found in an evaluation. This is an example of why relying on AI models to grade the training runs of other AI models can be problematic.
+
+## Making an unauthorized purchase with someone else’s cryptocurrency
+
+In [another disclosed case](https://alignment.openai.com/misalignment-reports/using-a-funded-test-cryptocurrency-wallet-without-authorization/), a model in the GPT-5.6 Sol family—the predecessor to OpenAI’s current flagship model, GPT-6 Astra—accessed a cryptocurrency wallet the human testers had not provided it, and made an unauthorized payment to complete a task during testing. This occurred on June 26. OpenAI discovered it in September.
+
+“The model questioned whether it had permission” to make the purchase, OpenAI said, again referring to what the model had recorded about its own reasoning in its chain of thought. It then reasoned with itself that since it found the information publicly, it could use it. In the model’s chain-of-thought logs, it figured that since the wallet it found was public, that “funds could be stolen anytime.”
+
+It then concluded, “We can deploy!” It later asked itself again if the act was done “ethically,” and reasoned that the funds were “effectively abandoned.”
+
+## Getting internet access, changing live systems
+
+The other [incident](https://alignment.openai.com/misalignment-reports/accessing-and-changing-internal-systems-during-dashboard-research/) OpenAI flagged as critical involved a model looking up public data, which theoretically is acceptable, but in the process it accessed the organization’s internal system, made changes to it, and was still able to “retain access … even after reverting the changes,” OpenAI said. It also downloaded 147,451 rows from nonpublic data tables. Perhaps most concerningly, the model did not disclose any of its actions to the evaluators.
+
+In the [final case](https://alignment.openai.com/misalignment-reports/circumventing-internet-restrictions-through-an-external-browser/) OpenAI disclosed, an AI agent was able to get internet access from a research environment that should have been isolated—potentially similar to what happened during the Hugging Face incident, in which hundreds of AI agents were able to get internet access, although OpenAI did not directly compare these two incidents.
+
+In the newly disclosed case, the agent knew it was not allowed to access the web, so it asked “external services” to perform actions it was blocked from doing. It did this even after it had found another way to answer the question, and also continued to develop its crafty work-around even after completing the task.
+
+***Fortune Daily***breaks the traditional barrier between audience and newsroom. The show transforms
+
+*Fortune*’s trusted reporting into actionable, conversational, and entertaining insights for an emerging class of business leaders.
+
+[**Watch here.**](https://fortune.com/topic/fortune-daily/?&itm_source=fortune&itm_medium=article_tout&itm_campaign=fortune_daily)
